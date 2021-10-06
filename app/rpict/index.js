@@ -91,11 +91,13 @@ function processData(data, rpictEventEmitter) {
     const values = data.split(/[ ,]+/);
     let count = 0;
 
-    // Read sensor mapping from JSON file.
+    // Init frame
     const frame = {
-        data: null,
+        data: {},
         deviceMapping: deviceMappingJson,
     };
+    
+    // Read sensor mapping from JSON file.
     Object.keys(deviceMappingJson).forEach((key) => {
         try {
             frame.data[key] = parseDataFromTemplateParams(values[count], key);
@@ -105,6 +107,7 @@ function processData(data, rpictEventEmitter) {
         count += 1;
     });
 
+    // Emit frame
     rpictEventEmitter.emit('frame', frame);
 }
 
