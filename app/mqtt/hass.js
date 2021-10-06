@@ -67,15 +67,14 @@ async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
     const promises = Object.keys(frame).filter((key) => key !== 'deviceMapping').map(async (tag) => {
         const discoveryTopic = `${hassDiscoveryPrefix}/sensor/${mqttBaseTopic}/${nodeID}_${tag.toLowerCase()}/config`;
         log.debug(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
-        const stateTopic = getFrameTopic(nodeID);
         return client.publish(discoveryTopic, JSON.stringify({
             unique_id: `rpict_${nodeID}_${tag}`,
             name: `RPICT ${nodeID} ${tag}`,
-            state_topic: stateTopic,
-            state_class: getStateClass(tag),
-            device_class: getDeviceClass(tag),
-            value_template: getValueTemplate(tag),
-            unit_of_measurement: getUnitOfMeasurement(tag),
+            state_topic: getFrameTopic(nodeID),
+            state_class: getStateClass(tag, frame.deviceMapping),
+            device_class: getDeviceClass(tag, frame.deviceMapping),
+            value_template: getValueTemplate(tag, frame.deviceMapping),
+            unit_of_measurement: getUnitOfMeasurement(tag, frame.deviceMapping),
             device: {
                 identifiers: [nodeID],
                 manufacturer: 'LeChacal',
