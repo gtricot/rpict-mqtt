@@ -93,11 +93,12 @@ function processData(data, rpictEventEmitter) {
 
     // Read sensor mapping from JSON file.
     const frame = {
+        data: null,
         deviceMapping: deviceMappingJson,
     };
     Object.keys(deviceMappingJson).forEach((key) => {
         try {
-            frame[key] = parseDataFromTemplateParams(values[count], key);
+            frame.data[key] = parseDataFromTemplateParams(values[count], key);
         } catch (e) {
             log.error(e);
         }

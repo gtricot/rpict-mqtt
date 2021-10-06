@@ -64,7 +64,7 @@ function getValueTemplate(tag, deviceMapping) {
  * @param frame
  */
 async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
-    const promises = Object.keys(frame).filter((key) => key !== 'deviceMapping').map(async (tag) => {
+    const promises = Object.keys(frame.data).filter((key) => key !== 'deviceMapping').map(async (tag) => {
         const discoveryTopic = `${hassDiscoveryPrefix}/sensor/${mqttBaseTopic}/${nodeID}_${tag.toLowerCase()}/config`;
         log.debug(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
         return client.publish(discoveryTopic, JSON.stringify({

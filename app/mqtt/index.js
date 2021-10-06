@@ -89,10 +89,10 @@ async function disconnect() {
  * @param {*} frame
  */
 async function publishFrame(frame) {
-    const nodeID = frame ? frame.NodeID : undefined;
+    const nodeID = frame.data ? frame.data.NodeID : undefined;
     if (!nodeID) {
         log.warn('Cannot publish a frame without NodeID property');
-        log.debug(frame);
+        log.warn(frame);
     } else {
         if (hassDiscovery && !discoveryConfigurationPublished) {
             try {
@@ -104,10 +104,10 @@ async function publishFrame(frame) {
             }
         }
         const frameTopic = getFrameTopic(nodeID);
-        log.debug(`Publish frame to topic [${frameTopic}]`);
-        log.debug(frame);
+        log.debug(`Publish frame data to topic [${frameTopic}]`);
+        log.debug(frame.data);
         try {
-            await client.publish(frameTopic, JSON.stringify(frame));
+            await client.publish(frameTopic, JSON.stringify(frame.data));
         } catch (e) {
             log.warn(`Unable to publish frame to ${frameTopic} (${e.message})`);
             log.warn(e);
