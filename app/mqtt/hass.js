@@ -23,9 +23,9 @@ function getFrameTopic(nodeID) {
  * @param deviceMapping
  * @returns {string}
  */
- function getDeviceClass(tag, deviceMapping) {
-     return deviceMapping[tag].device_class;
- }
+function getDeviceClass(tag, deviceMapping) {
+    return deviceMapping[tag].device_class;
+}
 
 /**
  * Get hass state class.
@@ -33,7 +33,7 @@ function getFrameTopic(nodeID) {
  * @param deviceMapping
  * @returns {string}
  */
-  function getStateClass(tag, deviceMapping) {
+function getStateClass(tag, deviceMapping) {
     return deviceMapping[tag].state_class;
 }
 
@@ -43,7 +43,7 @@ function getFrameTopic(nodeID) {
  * @param deviceMapping
  * @returns {string}
  */
- function getUnitOfMeasurement(tag, deviceMapping) {
+function getUnitOfMeasurement(tag, deviceMapping) {
     return deviceMapping[tag].unit_of_measurement;
 }
 
@@ -53,7 +53,7 @@ function getFrameTopic(nodeID) {
  * @param deviceMapping
  * @returns {string}
  */
- function getValueTemplate(tag, deviceMapping) {
+function getValueTemplate(tag, deviceMapping) {
     return deviceMapping[tag].value_template;
 }
 
@@ -64,13 +64,7 @@ function getFrameTopic(nodeID) {
  * @param frame
  */
 async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
-    const promises = Object.keys(frame).map(async (tag) => {
-
-        // Exclude JSON mapping field
-        if (tag == "deviceMapping") {
-            return;
-        }
-
+    const promises = Object.keys(frame).filter((key) => key !== 'deviceMapping').map(async (tag) => {
         const discoveryTopic = `${hassDiscoveryPrefix}/sensor/${mqttBaseTopic}/${nodeID}_${tag.toLowerCase()}/config`;
         log.info(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
         const stateTopic = getFrameTopic(nodeID);
