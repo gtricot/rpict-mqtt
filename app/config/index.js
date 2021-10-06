@@ -9,7 +9,7 @@ module.exports = {
     mqttUrl: process.env.MQTT_URL || 'mqtt://localhost:1883',
     mqttUser: process.env.MQTT_USER,
     mqttPassword: process.env.MQTT_PASSWORD,
-    mqttBaseTopic: process.env.MQTT_BASE_TOPIC || 'lechacal',
+    mqttBaseTopic: process.env.MQTT_BASE_TOPIC || 'rpict',
     hassDiscovery: process.env.HASS_DISCOVERY ? process.env.HASS_DISCOVERY.toLowerCase() === 'true' : true,
     hassDiscoveryPrefix: process.env.HASS_DISCOVERY_PREFIX || 'homeassistant',
 };

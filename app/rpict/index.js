@@ -17,13 +17,13 @@ let deviceMappingJson;
 function parseDataFromTemplateParams(data, configItem) {
     let returnValue;
     const valueType = deviceMappingJson[configItem].type;
-    log.debug(`Parsing value ${data} with type ${valueType} for config item ${configItem}`);
+    log.trace(`Parsing value ${data} with type ${valueType} for config item ${configItem}`);
     switch (valueType) {
     case 'float':
 
         // Parse value
         returnValue = Number(parseFloat(data).toFixed(fractionDigits));
-        log.debug(`Parsed float value ${returnValue} for config item ${configItem} with ${fractionDigits} fraction digits`);
+        log.trace(`Parsed float value ${returnValue} for config item ${configItem} with ${fractionDigits} fraction digits`);
 
         // Check for NaN value
         if (Number.isNaN(returnValue)) {
@@ -33,12 +33,12 @@ function parseDataFromTemplateParams(data, configItem) {
 
         // Invert negative value if parameterized
         if (returnValue < 0 && invertNegativeValues) {
-            log.debug(`Inverting negative return value ${returnValue} for config item ${configItem}`);
+            log.trace(`Inverting negative return value ${returnValue} for config item ${configItem}`);
             returnValue = -returnValue;
         }
         // Set value to 0.0 if inferior to threshold
         if (returnValue < sensorValueThreshold) {
-            log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0.0 instead`);
+            log.trace(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0.0 instead`);
             returnValue = 0.0;
         }
 
@@ -57,12 +57,12 @@ function parseDataFromTemplateParams(data, configItem) {
 
         // Invert negative value if parameterized
         if (returnValue < 0 && invertNegativeValues) {
-            log.debug(`Inverting negative return value ${returnValue} for config item ${configItem}`);
+            log.trace(`Inverting negative return value ${returnValue} for config item ${configItem}`);
             returnValue = -returnValue;
         }
         // Set value to 0 if inferior to threshold
         if (returnValue < sensorValueThreshold) {
-            log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0 instead`);
+            log.trace(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0 instead`);
             returnValue = 0;
         }
 
@@ -74,7 +74,7 @@ function parseDataFromTemplateParams(data, configItem) {
         returnValue = data;
     }
 
-    log.debug(`Parsed value ${returnValue} from raw value ${data} with type ${valueType} for config item ${configItem}`);
+    log.trace(`Parsed value ${returnValue} from raw value ${data} with type ${valueType} for config item ${configItem}`);
     return returnValue;
 }
 
