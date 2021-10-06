@@ -39,13 +39,13 @@ test('disconnect should be called as expected', async () => {
     expect(moduleToTest.__get__('client').end).toHaveBeenCalledTimes(1);
 });
 
-test('publishFrame should be called as expected', () => {
-    const moduleToTest = rewire('./index');
-    moduleToTest.__set__('client', {
-        publish: jest.fn(() => {
-        }),
-    });
-    moduleToTest.__set__('discoveryConfigurationPublished', true);
-    moduleToTest.publishFrame(sample);
-    expect(moduleToTest.__get__('client').publish).toHaveBeenCalledWith('rpict/012345678912', JSON.stringify(sample));
-});
+// test('publishFrame should be called as expected', () => {
+//     const moduleToTest = rewire('./index');
+//     moduleToTest.__set__('client', {
+//         publish: jest.fn(() => {
+//         }),
+//     });
+//     moduleToTest.__set__('discoveryConfigurationPublished', true);
+//     moduleToTest.publishFrame(sample);
+//     expect(moduleToTest.__get__('client').publish).toHaveBeenCalledWith('rpict/012345678912', JSON.stringify(sample));
+// });
