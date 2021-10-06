@@ -1,0 +1,87 @@
+{
+    "NodeID": {
+        "type": "integer",
+        "unit_of_measurement": "",
+        "icon": "identifier"
+    },
+    "Vrms1": {
+        "type": "float",
+        "unit_of_measurement": "V",
+        "icon": "sine-wave"
+    },
+    "Vrms2": {
+        "type": "float",
+        "unit_of_measurement": "V",
+        "icon": "sine-wave"
+    },
+    "Vrms3": {
+        "type": "float",
+        "unit_of_measurement": "V",
+        "icon": "sine-wave"
+    },
+    "Vrms4": {
+        "type": "float",
+        "unit_of_measurement": "V",
+        "icon": "sine-wave"
+    },
+    "Realpower1": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Realpower2": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Realpower3": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Realpower4": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Irms1": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms2": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms3": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms4": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "PF1": {
+        "type": "float",
+        "unit_of_measurement": "",
+        "icon": "exponent"
+    },
+    "PF2": {
+        "type": "float",
+        "unit_of_measurement": "",
+        "icon": "exponent"
+    },
+    "PF3": {
+        "type": "float",
+        "unit_of_measurement": "",
+        "icon": "exponent"
+    },
+    "PF4": {
+        "type": "float",
+        "unit_of_measurement": "",
+        "icon": "exponent"
+    }
+}

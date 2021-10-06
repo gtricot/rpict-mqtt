@@ -1,0 +1,27 @@
+{
+    "NodeID": {
+        "type": "integer",
+        "unit_of_measurement": "",
+        "icon": "identifier"
+    },
+    "P1": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P2": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P3": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Temperature": {
+        "type": "float",
+        "unit_of_measurement": "C",
+        "icon": "temperature-celsius"
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "NodeID": {
+        "type": "integer",
+        "unit_of_measurement": "",
+        "icon": "identifier"
+    },
+    "P1": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P2": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P3": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P4": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P5": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P6": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P7": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "P8": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    }
+}

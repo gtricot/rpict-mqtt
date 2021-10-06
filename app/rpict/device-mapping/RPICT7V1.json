@@ -1,0 +1,82 @@
+{
+    "NodeID": {
+        "type": "integer",
+        "unit_of_measurement": "",
+        "icon": "identifier"
+    },
+    "RP1": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP2": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP3": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP4": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP5": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP6": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "RP7": {
+        "type": "float",
+        "unit_of_measurement": "W",
+        "icon": "flash"
+    },
+    "Irms1": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms2": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms3": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms4": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms5": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms6": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Irms7": {
+        "type": "float",
+        "unit_of_measurement": "mA",
+        "icon": "current-ac"
+    },
+    "Vrms": {
+        "type": "float",
+        "unit_of_measurement": "V",
+        "icon": "sine-wave"
+    }
+}
