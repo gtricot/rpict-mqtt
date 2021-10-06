@@ -132,7 +132,6 @@ async function connect() {
         log.info(`Connecting to port [${serial}]`);
         serialPort = new SerialPort(serial, {
             baudRate,
-            autoOpen: false,
         }, (error) => {
             if (error) {
                 log.error(`Error when connecting to serial port [${error.message}]`);
