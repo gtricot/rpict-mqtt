@@ -8,7 +8,7 @@
 
 ![](docs/rpict-mqtt-logo.png)
 
-**rpict-mqtt** allows you to read Teleinfo frames from a Serial port and publish them to an Mqtt broker.
+**rpict-mqtt** allows you to read RPICT frames from a Serial port and publish them to an Mqtt broker.
 
 ## Ready to go?
 ### Check out the [documentation](https://gtricot.github.io/rpict-mqtt/) to get started!

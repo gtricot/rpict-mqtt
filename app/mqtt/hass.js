@@ -75,8 +75,8 @@ async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
         log.info(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
         const stateTopic = getFrameTopic(nodeID);
         return client.publish(discoveryTopic, JSON.stringify({
-            unique_id: `teleinfo_${nodeID}_${tag}`,
-            name: `Teleinfo ${nodeID} ${tag}`,
+            unique_id: `rpict_${nodeID}_${tag}`,
+            name: `RPICT ${nodeID} ${tag}`,
             state_topic: stateTopic,
             state_class: getStateClass(tag),
             device_class: getDeviceClass(tag),

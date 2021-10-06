@@ -47,5 +47,5 @@ test('publishFrame should be called as expected', () => {
     });
     moduleToTest.__set__('discoveryConfigurationPublished', true);
     moduleToTest.publishFrame(sample);
-    expect(moduleToTest.__get__('client').publish).toHaveBeenCalledWith('teleinfo/012345678912', JSON.stringify(sample));
+    expect(moduleToTest.__get__('client').publish).toHaveBeenCalledWith('rpict/012345678912', JSON.stringify(sample));
 });
