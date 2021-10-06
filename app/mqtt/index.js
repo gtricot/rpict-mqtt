@@ -100,6 +100,7 @@ async function publishFrame(frame) {
                 discoveryConfigurationPublished = true;
             } catch (e) {
                 log.warn(`Unable to publish discovery configuration (${e.message})`);
+                log.warn(e);
             }
         }
         const frameTopic = getFrameTopic(nodeID);
@@ -109,6 +110,7 @@ async function publishFrame(frame) {
             await client.publish(frameTopic, JSON.stringify(frame));
         } catch (e) {
             log.warn(`Unable to publish frame to ${frameTopic} (${e.message})`);
+            log.warn(e);
         }
     }
 }
