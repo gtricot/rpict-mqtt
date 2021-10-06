@@ -89,7 +89,7 @@ async function disconnect() {
  * @param {*} frame
  */
 async function publishFrame(frame) {
-    const nodeID = frame.NodeID;
+    const nodeID = frame ? frame.NodeID : undefined;
     if (!nodeID) {
         log.warn('Cannot publish a frame without NodeID property');
         log.debug(frame);
