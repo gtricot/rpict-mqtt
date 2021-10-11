@@ -63,6 +63,7 @@ async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
             state_topic: getFrameTopic(nodeID),
             value_template: getValueTemplate(tag),
             device_class: getDeviceClass(tag, frame.deviceMapping),
+            state_class: 'measurement',
             unit_of_measurement: getUnitOfMeasurement(tag, frame.deviceMapping),
             device: {
                 identifiers: [nodeID],
