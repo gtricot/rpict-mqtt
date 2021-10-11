@@ -2,41 +2,41 @@
     "NodeID": {
         "type": "integer",
         "unit_of_measurement": "",
-        "icon": "identifier"
+        "device_class": "None"
     },
     "Realpower1": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Realpower2": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Realpower3": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Irms1": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Irms2": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Irms3": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Vrms": {
         "type": "float",
         "unit_of_measurement": "V",
-        "icon": "sine-wave"
+        "device_class": "voltage"
     }
 }

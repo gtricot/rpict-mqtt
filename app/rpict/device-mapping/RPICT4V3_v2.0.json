@@ -2,86 +2,86 @@
     "NodeID": {
         "type": "integer",
         "unit_of_measurement": "",
-        "icon": "identifier"
+        "device_class": "None"
     },
     "Vrms1": {
         "type": "float",
         "unit_of_measurement": "V",
-        "icon": "sine-wave"
+        "device_class": "voltage"
     },
     "Vrms2": {
         "type": "float",
         "unit_of_measurement": "V",
-        "icon": "sine-wave"
+        "device_class": "voltage"
     },
     "Vrms3": {
         "type": "float",
         "unit_of_measurement": "V",
-        "icon": "sine-wave"
+        "device_class": "voltage"
     },
     "Vrms4": {
         "type": "float",
         "unit_of_measurement": "V",
-        "icon": "sine-wave"
+        "device_class": "voltage"
     },
     "Realpower1": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Realpower2": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Realpower3": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Realpower4": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Irms1": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Irms2": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Irms3": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "Irms4": {
         "type": "float",
         "unit_of_measurement": "mA",
-        "icon": "current-ac"
+        "device_class": "current"
     },
     "PF1": {
         "type": "float",
         "unit_of_measurement": "",
-        "icon": "exponent"
+        "device_class": "power_factor"
     },
     "PF2": {
         "type": "float",
         "unit_of_measurement": "",
-        "icon": "exponent"
+        "device_class": "power_factor"
     },
     "PF3": {
         "type": "float",
         "unit_of_measurement": "",
-        "icon": "exponent"
+        "device_class": "power_factor"
     },
     "PF4": {
         "type": "float",
         "unit_of_measurement": "",
-        "icon": "exponent"
+        "device_class": "power_factor"
     }
 }

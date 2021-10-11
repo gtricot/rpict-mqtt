@@ -2,26 +2,26 @@
     "NodeID": {
         "type": "integer",
         "unit_of_measurement": "",
-        "icon": "identifier"
+        "device_class": "None"
     },
     "P1": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "P2": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "P3": {
         "type": "float",
         "unit_of_measurement": "W",
-        "icon": "flash"
+        "device_class": "power"
     },
     "Temperature": {
         "type": "float",
         "unit_of_measurement": "C",
-        "icon": "temperature-celsius"
+        "device_class": "temperature"
     }
 }
