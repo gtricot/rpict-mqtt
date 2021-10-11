@@ -28,16 +28,6 @@ function getDeviceClass(tag, deviceMapping) {
 }
 
 /**
- * Get hass state class.
- * @param tag
- * @param deviceMapping
- * @returns {string}
- */
-function getStateClass(tag, deviceMapping) {
-    return deviceMapping[tag].state_class;
-}
-
-/**
  * Get hass unit of measurement.
  * @param tag
  * @param deviceMapping
@@ -53,8 +43,8 @@ function getUnitOfMeasurement(tag, deviceMapping) {
  * @param deviceMapping
  * @returns {string}
  */
-function getValueTemplate(tag, deviceMapping) {
-    return deviceMapping[tag].value_template;
+function getValueTemplate(tag) {
+    return `{{ value_json.${tag} }}`;
 }
 
 /**
@@ -71,9 +61,8 @@ async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
             unique_id: `rpict_${nodeID}_${tag}`,
             name: `RPICT ${nodeID} ${tag}`,
             state_topic: getFrameTopic(nodeID),
-            state_class: getStateClass(tag, frame.deviceMapping),
+            value_template: getValueTemplate(tag),
             device_class: getDeviceClass(tag, frame.deviceMapping),
-            value_template: getValueTemplate(tag, frame.deviceMapping),
             unit_of_measurement: getUnitOfMeasurement(tag, frame.deviceMapping),
             device: {
                 identifiers: [nodeID],
