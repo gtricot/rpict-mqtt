@@ -1,8 +1,7 @@
 {
     "NodeID": {
         "type": "integer",
-        "unit_of_measurement": "",
-        "device_class": "None"
+        "unit_of_measurement": "#"
     },
     "Realpower1": {
         "type": "float",
