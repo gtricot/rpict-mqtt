@@ -15,39 +15,12 @@ let serialPort;
 let deviceMappingJson;
 
 /**
- * Sanitize raw data
- * @param {*} data Raw data
- * @param {*} deviceMappingKey Device mapping key
- * @returns Sanitized data
- */
-function sanitizeData(data, deviceMappingKey) {
-    let returnValue;
-    const valueType = deviceMappingJson[deviceMappingKey].type;
-    log.debug(`Sanitizing raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
-
-    switch (valueType) {
-    case 'float':
-        returnValue = sanitizeFloatValue(data, deviceMappingKey);
-        break;
-    case 'integer':
-        returnValue = sanitizeIntValue(data, deviceMappingKey);
-        break;
-    case 'string':
-    default:
-        returnValue = data;
-    }
-
-    log.debug(`Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
-    return returnValue;
-}
-
-/**
  * Sanitize float value
  * @param {*} data Raw float value
  * @param {*} deviceMappingKey Device mapping key
  * @returns Sanitized float value
  */
-function sanitizeFloatValue(data, deviceMappingKey) {
+ function sanitizeFloatValue(data, deviceMappingKey) {
     // Parse value
     let returnValue = Number(parseFloat(data).toFixed(precision));
     log.debug(`Sanitizing float value ${returnValue} for key ${deviceMappingKey} with ${precision} decimals`);
@@ -99,6 +72,33 @@ function sanitizeIntValue(data, deviceMappingKey) {
         returnValue = 0;
     }
 
+    return returnValue;
+}
+
+/**
+ * Sanitize raw data
+ * @param {*} data Raw data
+ * @param {*} deviceMappingKey Device mapping key
+ * @returns Sanitized data
+ */
+function sanitizeData(data, deviceMappingKey) {
+    let returnValue;
+    const valueType = deviceMappingJson[deviceMappingKey].type;
+    log.debug(`Sanitizing raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
+
+    switch (valueType) {
+    case 'float':
+        returnValue = sanitizeFloatValue(data, deviceMappingKey);
+        break;
+    case 'integer':
+        returnValue = sanitizeIntValue(data, deviceMappingKey);
+        break;
+    case 'string':
+    default:
+        returnValue = data;
+    }
+
+    log.debug(`Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
     return returnValue;
 }
 
