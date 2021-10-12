@@ -14,67 +14,91 @@ const {
 let serialPort;
 let deviceMappingJson;
 
-function parseDataFromTemplateParams(data, configItem) {
+/**
+ * Sanitize raw data
+ * @param {*} data Raw data
+ * @param {*} deviceMappingKey Device mapping key
+ * @returns Sanitized data
+ */
+function sanitizeData(data, deviceMappingKey) {
     let returnValue;
-    const valueType = deviceMappingJson[configItem].type;
-    log.debug(`Parsing value ${data} with type ${valueType} for config item ${configItem}`);
+    const valueType = deviceMappingJson[deviceMappingKey].type;
+    log.debug(`Sanitizing raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
+
     switch (valueType) {
     case 'float':
-
-        // Parse value
-        returnValue = Number(parseFloat(data).toFixed(precision));
-        log.debug(`Parsed float value ${returnValue} for config item ${configItem} with ${precision} decimals`);
-
-        // Check for NaN value
-        if (Number.isNaN(returnValue)) {
-            log.warn(`Nan value detected for float type ${configItem} config item. Original value : ${data}. Returning 0.0 instead`);
-            returnValue = 0.0;
-        }
-
-        // Invert negative value if parameterized
-        if (returnValue < 0 && absoluteValues) {
-            log.debug(`Inverting negative return value ${returnValue} for config item ${configItem}`);
-            returnValue = -returnValue;
-        }
-        // Set value to 0.0 if inferior to threshold
-        if (returnValue < sensorValueThreshold) {
-            log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0.0 instead`);
-            returnValue = 0.0;
-        }
-
+        returnValue = sanitizeFloatValue(data, deviceMappingKey);
         break;
-
     case 'integer':
-
-        // Parse value
-        returnValue = parseInt(data, 10);
-
-        // Check for NaN value
-        if (Number.isNaN(returnValue)) {
-            log.warn(`Nan value detected for integer type ${configItem} config item. Original value : ${data}. Returning 0 instead`);
-            returnValue = 0;
-        }
-
-        // Invert negative value if parameterized
-        if (returnValue < 0 && absoluteValues) {
-            log.debug(`Inverting negative return value ${returnValue} for config item ${configItem}`);
-            returnValue = -returnValue;
-        }
-        // Set value to 0 if inferior to threshold
-        if (returnValue < sensorValueThreshold) {
-            log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${configItem}. Returning 0 instead`);
-            returnValue = 0;
-        }
-
+        returnValue = sanitizeIntValue(data, deviceMappingKey);
         break;
     case 'string':
-        returnValue = data;
-        break;
     default:
         returnValue = data;
     }
 
-    log.debug(`Parsed value ${returnValue} from raw value ${data} with type ${valueType} for config item ${configItem}`);
+    log.debug(`Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
+    return returnValue;
+}
+
+/**
+ * Sanitize float value
+ * @param {*} data Raw float value
+ * @param {*} deviceMappingKey Device mapping key
+ * @returns Sanitized float value
+ */
+function sanitizeFloatValue(data, deviceMappingKey) {
+    // Parse value
+    let returnValue = Number(parseFloat(data).toFixed(precision));
+    log.debug(`Sanitizing float value ${returnValue} for key ${deviceMappingKey} with ${precision} decimals`);
+
+    // Check for NaN value
+    if (Number.isNaN(returnValue)) {
+        log.warn(`Nan value detected for float type key ${deviceMappingKey}. Original value : ${data}. Returning 0.0 instead`);
+        returnValue = 0.0;
+    }
+
+    // Invert negative value if parameterized
+    if (returnValue < 0 && absoluteValues) {
+        returnValue = -returnValue;
+        log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
+    }
+    // Set value to 0.0 if inferior to threshold
+    if (returnValue < sensorValueThreshold) {
+        log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for key ${deviceMappingKey}. Returning 0.0 instead`);
+        returnValue = 0.0;
+    }
+
+    return returnValue;
+}
+
+/**
+ * Sanitize int value
+ * @param {*} data Raw int value
+ * @param {*} deviceMappingKey Device mapping key
+ * @returns Sanitized int value
+ */
+function sanitizeIntValue(data, deviceMappingKey) {
+    // Parse value
+    let returnValue = parseInt(data, 10);
+    log.debug(`Sanitizing int value ${returnValue} for key ${deviceMappingKey}`);
+
+    // Check for NaN value
+    if (Number.isNaN(returnValue)) {
+        log.warn(`Nan value detected for integer type key ${deviceMappingKey}. Original value : ${data}. Returning 0 instead`);
+        returnValue = 0;
+    }
+    // Invert negative value if parameterized
+    if (returnValue < 0 && absoluteValues) {
+        returnValue = -returnValue;
+        log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
+    }
+    // Set value to 0 if inferior to threshold
+    if (returnValue < sensorValueThreshold) {
+        log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${deviceMappingKey}. Returning 0 instead`);
+        returnValue = 0;
+    }
+
     return returnValue;
 }
 
@@ -100,7 +124,7 @@ function processData(data, rpictEventEmitter) {
     // Read sensor mapping from JSON file.
     Object.keys(deviceMappingJson).forEach((key) => {
         try {
-            frame.data[key] = parseDataFromTemplateParams(values[count], key);
+            frame.data[key] = sanitizeData(values[count], key);
         } catch (e) {
             log.error(e);
         }
