@@ -18,7 +18,7 @@ const { publishConfigurationForHassDiscovery } = require('./hass');
 let discoveryConfigurationPublished = false;
 
 /**
- * MQT Client.
+ * MQTT Client.
  */
 let client;
 
@@ -32,9 +32,10 @@ function getFrameTopic(nodeID) {
 }
 
 /**
- * Connect to MQTT broker.
+ * Get MQTT client options.
+ * @returns MQTT client options
  */
-async function connect() {
+function getMqttClientOptions() {
     const options = {};
     if (mqttUser) {
         options.username = mqttUser;
@@ -42,9 +43,16 @@ async function connect() {
     if (mqttPassword) {
         options.password = mqttPassword;
     }
+    return options;
+}
+
+/**
+ * Connect to MQTT broker.
+ */
+async function connect() {
     log.info(`Connecting to MQTT broker [${mqttUrl}]`);
     try {
-        client = await mqtt.connectAsync(mqttUrl, options);
+        client = await mqtt.connectAsync(mqttUrl, getMqttClientOptions());
         log.info(`Connected to MQTT broker [${mqttUrl}]`);
     } catch (e) {
         log.error(`MQTT connection error [${e.message}]`);
@@ -91,26 +99,22 @@ async function disconnect() {
 async function publishFrame(frame) {
     const nodeID = frame.data ? frame.data.NodeID : undefined;
     if (!nodeID) {
-        log.warn('Cannot publish a frame without NodeID property');
-        log.warn(frame);
+        log.warn(`Cannot publish a frame without NodeID property : ${frame}`);
     } else {
         if (hassDiscovery && !discoveryConfigurationPublished) {
             try {
                 await publishConfigurationForHassDiscovery(client, nodeID, frame);
                 discoveryConfigurationPublished = true;
             } catch (e) {
-                log.warn(`Unable to publish discovery configuration (${e.message})`);
-                log.warn(e);
+                log.warn(`Unable to publish discovery configuration (${e.message}) : ${e}`);
             }
         }
         const frameTopic = getFrameTopic(nodeID);
-        log.debug(`Publish frame data to topic [${frameTopic}]`);
-        log.debug(frame.data);
+        log.debug(`Publish frame data ${frame.data} to topic ${frameTopic}`);
         try {
             await client.publish(frameTopic, JSON.stringify(frame.data));
         } catch (e) {
-            log.warn(`Unable to publish frame to ${frameTopic} (${e.message})`);
-            log.warn(e);
+            log.warn(`Unable to publish frame to ${frameTopic} (${e.message}) : ${e}`);
         }
     }
 }
