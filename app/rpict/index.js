@@ -20,7 +20,7 @@ let deviceMappingJson;
  * @param {*} deviceMappingKey Device mapping key
  * @returns Sanitized float value
  */
- function sanitizeFloatValue(data, deviceMappingKey) {
+function sanitizeFloatValue(data, deviceMappingKey) {
     // Parse value
     let returnValue = Number(parseFloat(data).toFixed(precision));
     log.debug(`Sanitizing float value ${returnValue} for key ${deviceMappingKey} with ${precision} decimals`);
