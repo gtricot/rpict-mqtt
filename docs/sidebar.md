@@ -1,5 +1,7 @@
+# rpict-mqtt documentation
+
 - [Introduction](introduction/)
 - [Configuration](configuration/)
-- [Mqtt](mqtt/)
-- [Home-Assistant integration](hass/)
+- [MQTT](mqtt/)
+- [Home Assistant integration](hass/)
 - [Changelog](changelog/)
