@@ -6,8 +6,9 @@
 ![Maintainability](https://img.shields.io/codeclimate/maintainability/gtricot/rpict-mqtt)
 ![Coverage](https://img.shields.io/codeclimate/coverage/gtricot/rpict-mqtt)
 
-**rpict-mqtt** allows you to read [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) data from a Serial port and publish it to an MQTT broker.
-Supported devices are currently :
+[**rpict-mqtt**](https://github.com/gtricot/rpict-mqtt) allows you to read [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) data from a Serial port and publish it to an MQTT broker.
+
+Currently supported devices :
 
 - [RPICT3T1](http://lechacal.com/wiki/index.php?title=RPICT3T1) / [RPIZ_CT3T1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3T1)
 - [RPICT3V1](http://lechacal.com/wiki/index.php?title=RPICT3V1) / [RPIZ_CT3V1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3V1)
@@ -17,9 +18,15 @@ Supported devices are currently :
 
 ## Quick start
 
+### Setup your device
+
+Setup your [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) following [LeChacal official documentation](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor#First_time_use)
+
 ### Run the Docker image
 
-The easiest way to start is to deploy the official _**rpict-mqtt**_ image.
+Deploy and run the [official _**rpict-mqtt**_ image](https://hub.docker.com/r/gtricot/rpict-mqtt).
+
+Read the [configuration page](configuration/) to see available configuration options.
 
 <!-- tabs:start -->
 

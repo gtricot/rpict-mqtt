@@ -1,5 +1,3 @@
-# rpict-mqtt documentation
-
 - [Introduction](introduction/)
 - [Configuration](configuration/)
 - [MQTT](mqtt/)
