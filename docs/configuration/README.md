@@ -1,4 +1,5 @@
 # Configuration
+
 rpict-mqtt can be configured using Environment Variables.
 
 ## Environment variables
@@ -7,7 +8,7 @@ rpict-mqtt can be configured using Environment Variables.
 |----------------------|-------------------------------------------------------------------------------------------------------------|------------------------|
 |SERIAL                | Serial Port location                                                                                        | /dev/ttyAMA0           |
 |BAUD_RATE             | Serial Port baud rate                                                                                       | 38400                  |
-|DEVICE_MAPPING        | Device mapping file (RPICT3T1.json, RPICT3V1.json, RPICT4V3_v2.0.json, RPICT7V1.json or RPICT8.json)        | RPICT7V1.json          |
+|DEVICE_MAPPING        | Device mapping file (RPICT3T1.json, RPICT3V1.json, RPICT4V3.json, RPICT7V1.json or RPICT8.json)             | RPICT7V1.json          |
 |PRECISION             | Sensor precision (number of decimals returned for each sensor value)                                        | 2                      |
 |ABSOLUTE_VALUES       | If true, all sensor values are in absolute value, even if some CT clamp is inverted                         | false                  |
 |SENSOR_VALUE_THRESHOLD| Sensor values inferior to threshold are set to 0 (noise reduction)                                          | 0                      |
@@ -23,7 +24,8 @@ rpict-mqtt can be configured using Environment Variables.
 ## Complete example
 
 <!-- tabs:start -->
-#### **Docker Compose**
+### **Docker Compose**
+
 ```yaml
 version: '3'
 
@@ -41,7 +43,9 @@ services:
       - SENSOR_VALUE_THRESHOLD=2
     restart: unless-stopped
 ```
-#### **Docker**
+
+### **Docker**
+
 ```bash
 docker run -d --name rpict2mqtt \
   --device=/dev/ttyAMA0:/dev/ttyAMA0 \

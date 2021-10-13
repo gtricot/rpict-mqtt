@@ -6,12 +6,18 @@
 ![Maintainability](https://img.shields.io/codeclimate/maintainability/gtricot/rpict-mqtt)
 ![Coverage](https://img.shields.io/codeclimate/coverage/gtricot/rpict-mqtt)
 
-![](docs/rpict-mqtt-logo.png)
+**rpict-mqtt** allows you to read [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) data from a Serial port and publish it to an MQTT broker.
+Supported devices are currently :
 
-**rpict-mqtt** allows you to read RPICT frames from a Serial port and publish them to an Mqtt broker.
+- [RPICT3T1](http://lechacal.com/wiki/index.php?title=RPICT3T1) / [RPIZ_CT3T1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3T1)
+- [RPICT3V1](http://lechacal.com/wiki/index.php?title=RPICT3V1) / [RPIZ_CT3V1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3V1)
+- [RPICT4V3](http://lechacal.com/wiki/index.php?title=RPICT4V3_Version_5)
+- [RPICT7V1](http://lechacal.com/wiki/index.php?title=RPICT7V1_Version_5)
+- [RPICT8](http://lechacal.com/wiki/index.php?title=RPICT8_Version_5)
 
 ## Ready to go?
-### Check out the [documentation](https://gtricot.github.io/rpict-mqtt/) to get started!
+
+### Check out the [documentation](https://gtricot.github.io/rpict-mqtt/) to get started
 
 ## Contact & Support
 

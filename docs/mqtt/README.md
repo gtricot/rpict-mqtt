@@ -1,6 +1,7 @@
-# Mqtt
+# MQTT
 
 ## Topic
+
 Messages are published to a `$MQTT_BASE_TOPIC/$NodeId` topic.
 
 ?> [`$MQTT_BASE_TOPIC`](configuration/) is configured by env var (`rpict` by default)
@@ -8,15 +9,18 @@ Messages are published to a `$MQTT_BASE_TOPIC/$NodeId` topic.
 ?> `$NodeId` is the node id of your LeChacal RPICT device (11 by default, other value if you are stacking multiple RPICT devices)
 
 ## Message
+
 Messages are JSON documents whose content may vary upon your RPICT device.
 
-?> Values are sanitized and converted to float values.  
+Values are sanitized and converted to float values.  
 You can modify this behavior using some env variables :
+
 - PRECISION : Set float values precision (number of decimals)
 - ABSOLUTE_VALUES : If true, negative values are inverted
 - SENSOR_VALUE_THRESHOLD : Sensor values inferior to threshold are set to 0 (noise reduction)
 
 ### Example
+
 ```json
 {
     "NodeID": 11,
