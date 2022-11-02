@@ -12,6 +12,11 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: gtricot/rpict-mqtt
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Setup Buildx
@@ -25,5 +30,6 @@ jobs:
       uses: docker/build-push-action@v3.2.0
       with:
         platforms: linux/arm/v6,linux/arm/v7,linux/arm64/v8,linux/amd64
-        push: true
-        tags: gtricot/rpict-mqtt:latest
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
