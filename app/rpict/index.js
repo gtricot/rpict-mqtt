@@ -37,7 +37,7 @@ function sanitizeFloatValue(data, deviceMappingKey) {
         log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
     }
     // Set value to 0.0 if inferior to threshold
-    if (returnValue < sensorValueThreshold) {
+    if ((returnValue > 0 && returnValue < sensorValueThreshold) || (returnValue < 0 && returnValue > -sensorValueThreshold)) {
         log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for key ${deviceMappingKey}. Returning 0.0 instead`);
         returnValue = 0.0;
     }
@@ -67,7 +67,7 @@ function sanitizeIntValue(data, deviceMappingKey) {
         log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
     }
     // Set value to 0 if inferior to threshold
-    if (returnValue < sensorValueThreshold) {
+    if ((returnValue > 0 && returnValue < sensorValueThreshold) || (returnValue < 0 && returnValue > -sensorValueThreshold)) {
         log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${deviceMappingKey}. Returning 0 instead`);
         returnValue = 0;
     }
