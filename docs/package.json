@@ -10,6 +10,7 @@
   "repository": "gtricot/rpict-mqtt",
   "license": "MIT",
   "devDependencies": {
-    "docsify-cli": "4.4.3"
+    "docsify": "^4.13.0",
+    "docsify-cli": "^4.4.4"
   }
 }
