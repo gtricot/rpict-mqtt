@@ -1,0 +1,6 @@
+set MQTT_URL=http://localhost:1883
+set MQTT_USER=test
+set MQTT_PASSWORD=test
+set SENSOR_VALUE_THRESHOLD=10
+set LOG_FORMAT=text
+set LOG_LEVEL=DEBUG

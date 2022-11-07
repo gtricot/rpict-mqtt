@@ -1,5 +1,5 @@
 const Readline = require('@serialport/parser-readline');
-const SerialPort = require('serialport');
+const { SerialPort } = require('serialport');
 const events = require('events');
 const log = require('../log');
 const {
@@ -158,9 +158,7 @@ async function connect() {
 
         // Connect to serial port
         log.info(`Connecting to port [${serial}]`);
-        serialPort = new SerialPort(serial, {
-            baudRate,
-        }, (error) => {
+        serialPort = new SerialPort( {path: serial, baudRate: baudRate}, (error) => {
             if (error) {
                 log.error(`Error when connecting to serial port [${error.message}]`);
                 reject(error);
