@@ -1,5 +1,5 @@
-const Readline = require('@serialport/parser-readline');
 const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
 const events = require('events');
 const log = require('../log');
 const {
@@ -163,7 +163,7 @@ async function connect() {
                 log.error(`Error when connecting to serial port [${error.message}]`);
                 reject(error);
             } else {
-                const parser = serialPort.pipe(new Readline());
+                const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
                 const rpictEventEmitter = new events.EventEmitter();
 
