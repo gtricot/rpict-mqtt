@@ -2,9 +2,22 @@ FROM node:18-alpine
 
 LABEL maintainer="gtricot"
 
-RUN apk update && apk add --no-cache make gcc g++ python3 linux-headers udev
+# Install system dependencies
+# Add TZDATA to allow easy local time configuration
+RUN apk update \
+    && apk add --no-cache make gcc g++ python3 linux-headers udev tzdata \
+    && rm -rf /var/cache/apk/*
 
-WORKDIR /home/node/app
+# Set working directory
+WORKDIR /app
+
+# Copy node app
+COPY app/ ./
+
+# Install node dependendencies
+RUN npm ci --omit=dev
+
+# Default log format
 ENV LOG_FORMAT=text
 
 # Default entrypoint
@@ -14,14 +27,3 @@ ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
 # Default Command
 CMD ["node", "index"]
-
-# Add TZDATA to allow easy local time configuration
-RUN apk update \
-    && apk add tzdata \
-    && rm -rf /var/cache/apk/*
-
-# Copy app
-COPY app/ ./
-
-# Install dependendencies
-RUN npm ci --production
