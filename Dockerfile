@@ -21,7 +21,7 @@ RUN npm ci --omit=dev && npm rebuild --build-from-source
 ENV LOG_FORMAT=text
 
 # Enable serialport debug option
-ENV DEBUG=serialport*
+# ENV DEBUG=serialport*
 
 # Default entrypoint
 COPY Docker.entrypoint.sh /usr/bin/entrypoint.sh
