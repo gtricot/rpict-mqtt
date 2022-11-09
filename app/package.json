@@ -27,7 +27,7 @@
     "@serialport/parser-readline": "^10.3.0",
     "async-mqtt": "^2.6.3",
     "bunyan": "^1.8.15",
-    "serialport": "^10.4.0"
+    "serialport": "^10.3.0"
   },
   "devDependencies": {
     "eslint": "^8.26.0",
