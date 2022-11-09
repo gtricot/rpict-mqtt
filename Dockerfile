@@ -2,9 +2,10 @@ FROM node:18-alpine
 
 LABEL maintainer="gtricot"
 
+# Install system dependencies
 # Add TZDATA to allow easy local time configuration
 RUN apk update \
-    && apk add --no-cache tzdata \
+    && apk add --no-cache make gcc g++ python3 linux-headers udev tzdata \
     && rm -rf /var/cache/apk/*
 
 # Set working directory
@@ -14,7 +15,7 @@ WORKDIR /app
 COPY app/ ./
 
 # Install node dependendencies
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev && npm rebuild --build-from-source
 
 # Default log format
 ENV LOG_FORMAT=text
