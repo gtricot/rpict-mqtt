@@ -163,11 +163,11 @@ async function connect() {
                 log.error(`Error when connecting to serial port [${error.message}]`);
                 reject(error);
             } else {
-                const parser = serialPort.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-
-                const rpictEventEmitter = new events.EventEmitter();
-
                 log.info(`Connected to port [${serial}]`);
+                const parser = serialPort.pipe(new ReadlineParser());
+                log.info(`Initialized serial port parser`);
+                const rpictEventEmitter = new events.EventEmitter();
+                log.info(`Created RPICT event emitter`);
 
                 // Process data
                 parser.on('data', (data) => processData(data, rpictEventEmitter));
