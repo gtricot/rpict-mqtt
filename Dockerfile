@@ -2,10 +2,9 @@ FROM node:18-alpine
 
 LABEL maintainer="gtricot"
 
-# Install system dependencies
 # Add TZDATA to allow easy local time configuration
 RUN apk update \
-    && apk add --no-cache make gcc g++ python3 linux-headers udev tzdata \
+    && apk add --no-cache tzdata \
     && rm -rf /var/cache/apk/*
 
 # Set working directory
