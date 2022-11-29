@@ -1,24 +1,23 @@
 const fs = require('fs');
-const log = require('../log');
 
 // Location of hass.io addon options file
 const HASSIO_ADDON_OPTIONS_FILE = '/data/options.json';
 
 // Configuration (default values)
 const config = {
-    mqttUrl: process.env.MQTT_URL || 'mqtt://localhost:1883',
-    mqttUser: process.env.MQTT_USER,
-    mqttPassword: process.env.MQTT_PASSWORD,
-    mqttBaseTopic: process.env.MQTT_BASE_TOPIC || 'rpict',
-    hassDiscovery: process.env.HASS_DISCOVERY ? process.env.HASS_DISCOVERY.toLowerCase() === 'true' : true,
-    hassDiscoveryPrefix: process.env.HASS_DISCOVERY_PREFIX || 'homeassistant',
-    serial: process.env.SERIAL || '/dev/ttyAMA0',
-    baudRate: process.env.BAUD_RATE || 38400,
-    deviceMapping: process.env.DEVICE_MAPPING || 'RPICT7V1.json',
-    precision: process.env.PRECISION || 2,
-    absoluteValues: process.env.ABSOLUTE_VALUES ? process.env.HASS_DISCOVERY.toLowerCase() === 'true' : true || false,
-    sensorValueThreshold: process.env.SENSOR_VALUE_THRESHOLD || 0,
-    logLevel: process.env.LOG_LEVEL || 'info',
+    mqttUrl: 'mqtt://localhost:1883',
+    mqttUser: undefined,
+    mqttPassword: undefined,
+    mqttBaseTopic: 'rpict',
+    hassDiscovery: true,
+    hassDiscoveryPrefix: 'homeassistant',
+    serial: '/dev/ttyAMA0',
+    baudRate: 38400,
+    deviceMapping: 'RPICT7V1.json',
+    precision: 2,
+    absoluteValues: false,
+    sensorValueThreshold: 0,
+    logLevel: 'info',
 };
 
 /**
@@ -74,8 +73,6 @@ overrideConfiguration(process.env);
 if (process.env.HASSIO_ADDON && process.env.HASSIO_ADDON.toLowerCase() === 'true') {
     const optionsBuffer = fs.readFileSync(HASSIO_ADDON_OPTIONS_FILE, 'utf8');
     const options = JSON.parse(optionsBuffer);
-    const optionsHidden = { ...config, MQTT_PASSWORD: '<hidden>' };
-    log.debug('Hass.io add-on mode - Parsed options from /data/options.json = ', optionsHidden);
     overrideConfiguration(options);
 }
 
