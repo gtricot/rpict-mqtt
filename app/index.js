@@ -1,3 +1,4 @@
+const config = require('./config');
 const rpict = require('./rpict');
 const mqtt = require('./mqtt');
 const log = require('./log');
@@ -8,7 +9,9 @@ async function disconnect() {
 }
 
 async function run() {
-    log.info('Starting rpict-mqtt');
+    const configHidden = { ...config, mqttPassword: '<hidden>' };
+    log.info('Starting rpict-mqtt with configuration =', configHidden);
+
     try {
         // Connect to MQTT
         await mqtt.connect();
