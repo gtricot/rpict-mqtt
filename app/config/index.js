@@ -1,4 +1,5 @@
 const fs = require('fs');
+const log = require('../log');
 
 // Location of hass.io addon options file
 const HASSIO_ADDON_OPTIONS_FILE = '/data/options.json';
@@ -38,7 +39,7 @@ function overrideConfiguration(overrideObject) {
         config.mqttBaseTopic = overrideObject.MQTT_BASE_TOPIC;
     }
     if (overrideObject.HASS_DISCOVERY) {
-        config.hassDiscovery = overrideObject.HASS_DISCOVERY.toLowerCase() === 'true';
+        config.hassDiscovery = overrideObject.HASS_DISCOVERY;
     }
     if (overrideObject.HASS_DISCOVERY_PREFIX) {
         config.hassDiscoveryPrefix = overrideObject.HASS_DISCOVERY_PREFIX;
@@ -56,7 +57,7 @@ function overrideConfiguration(overrideObject) {
         config.precision = overrideObject.PRECISION;
     }
     if (overrideObject.ABSOLUTE_VALUES) {
-        config.absoluteValues = overrideObject.ABSOLUTE_VALUES.toLowerCase() === 'true';
+        config.absoluteValues = overrideObject.ABSOLUTE_VALUES;
     }
     if (overrideObject.SENSOR_VALUE_THRESHOLD) {
         config.sensorValueThreshold = overrideObject.SENSOR_VALUE_THRESHOLD;
@@ -73,6 +74,8 @@ overrideConfiguration(process.env);
 if (process.env.HASSIO_ADDON && process.env.HASSIO_ADDON.toLowerCase() === 'true') {
     const optionsBuffer = fs.readFileSync(HASSIO_ADDON_OPTIONS_FILE, 'utf8');
     const options = JSON.parse(optionsBuffer);
+    const optionsHidden = { ...config, MQTT_PASSWORD: '<hidden>' };
+    log.debug('Hass.io add-on mode - Parsed options from /data/options.json = ', optionsHidden);
     overrideConfiguration(options);
 }
 
