@@ -40,37 +40,37 @@
     },
     "Irms1": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms2": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms3": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms4": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms5": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms6": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Irms7": {
         "type": "float",
-        "unit_of_measurement": "mA",
+        "unit_of_measurement": "A",
         "device_class": "current"
     },
     "Vrms": {
