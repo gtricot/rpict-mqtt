@@ -1,25 +1,24 @@
 # Configuration
 
-rpict-mqtt can be configured using Environment Variables.
+rpict-mqtt can be configured using Environment Variables or through Home Assistant Add-on configuration when running as a Home Assistant add-on.
 
-## Environment variables
+## Configuration Options
 
-| Env var              | Description                                                                                                 | Default value          |
-|----------------------|-------------------------------------------------------------------------------------------------------------|------------------------|
-|SERIAL                | Serial Port location                                                                                        | /dev/ttyAMA0           |
-|BAUD_RATE             | Serial Port baud rate                                                                                       | 38400                  |
-|DEVICE_MAPPING        | Device mapping file (RPICT3T1.json, RPICT3V1.json, RPICT4V3.json, RPICT7V1.json or RPICT8.json)             | RPICT7V1.json          |
-|PRECISION             | Sensor precision (number of decimals returned for each sensor value)                                        | 2                      |
-|ABSOLUTE_VALUES       | If true, all sensor values are in absolute value, even if some CT clamp is inverted                         | false                  |
-|SENSOR_VALUE_THRESHOLD| Sensor values inferior to threshold are set to 0 (noise reduction)                                          | 0                      |
-|MQTT_URL              | MQTT Broker connection URL                                                                                  | mqtt://localhost:1883  |
-|MQTT_USER             | MQTT user     (optional)                                                                                    |                        |
-|MQTT_PASSWORD         | MQTT password (optional)                                                                                    |                        |
-|MQTT_BASE_TOPIC       | MQTT Base topic                                                                                             | rpict                  |
-|HASS_DISCOVERY        | Publish configuration for Home-Assistant discovery                                                          | true                   |
-|HASS_DISCOVERY_PREFIX | Topic prefix for Home-Assistant Discovery                                                                   | homeassistant          |
-|LOG_LEVEL             | Log level (INFO, DEBUG, ERROR)                                                                              | INFO                   |
-|LOG_FORMAT            | Log format (text, json)                                                                                     | text                   |
+| Env var / Option     | Description                                                                                                 | Default value          |
+|---------------------|-------------------------------------------------------------------------------------------------------------|------------------------|
+|SERIAL               | Serial Port location                                                                                         | /dev/ttyAMA0           |
+|BAUD_RATE           | Serial Port baud rate                                                                                        | 38400                  |
+|DEVICE_MAPPING      | Device mapping file (RPICT3T1.json, RPICT3V1.json, RPICT4V3.json, RPICT7V1.json or RPICT8.json)           | RPICT7V1.json          |
+|PRECISION           | Sensor precision (number of decimals returned for each sensor value)                                         | 2                      |
+|ABSOLUTE_VALUES     | If true, all sensor values are in absolute value, even if some CT clamp is inverted                        | false                  |
+|SENSOR_VALUE_THRESHOLD| Sensor values inferior to threshold are set to 0 (noise reduction)                                        | 0                      |
+|MQTT_URL            | MQTT Broker connection URL                                                                                   | mqtt://localhost:1883  |
+|MQTT_USER           | MQTT user (optional)                                                                                         |                        |
+|MQTT_PASSWORD       | MQTT password (optional)                                                                                     |                        |
+|MQTT_BASE_TOPIC     | MQTT Base topic                                                                                             | rpict                  |
+|HASS_DISCOVERY      | Enable/disable Home Assistant MQTT discovery feature                                                        | true                   |
+|HASS_DISCOVERY_PREFIX| Topic prefix for Home Assistant Discovery                                                                  | homeassistant          |
+|LOG_LEVEL           | Log level (info, debug, error)                                                                              | info                   |
 
 ## Complete example
 
