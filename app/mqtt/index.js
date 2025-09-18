@@ -1,13 +1,7 @@
 const mqtt = require('async-mqtt');
 const log = require('../log');
 
-const {
-    mqttUrl,
-    mqttUser,
-    mqttPassword,
-    mqttBaseTopic,
-    hassDiscovery,
-} = require('../config');
+const { mqttUrl, mqttUser, mqttPassword, mqttBaseTopic, hassDiscovery } = require('../config');
 
 const { publishConfigurationForHassDiscovery } = require('./hass');
 
@@ -62,7 +56,6 @@ async function connect() {
         if (client) {
             client.on('connect', () => {
                 // Workaround to avoid reconnect issue (see https://github.com/mqttjs/MQTT.js/issues/1213)
-                // eslint-disable-next-line no-underscore-dangle
                 client._client.options.properties = {};
             });
             client.on('reconnect', () => {
