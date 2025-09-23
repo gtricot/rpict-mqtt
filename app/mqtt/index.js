@@ -1,9 +1,9 @@
-const mqtt = require('async-mqtt');
-const log = require('../log');
+import mqtt from 'async-mqtt';
+import log from '../log/index.js';
+import config from '../config/index.js';
+import { publishConfigurationForHassDiscovery } from './hass.js';
 
-const { mqttUrl, mqttUser, mqttPassword, mqttBaseTopic, hassDiscovery } = require('../config');
-
-const { publishConfigurationForHassDiscovery } = require('./hass');
+const { mqttUrl, mqttUser, mqttPassword, mqttBaseTopic, hassDiscovery } = config;
 
 /**
  * True when hass discovery configuration has been published.
@@ -112,8 +112,4 @@ async function publishFrame(frame) {
     }
 }
 
-module.exports = {
-    connect,
-    disconnect,
-    publishFrame,
-};
+export { connect, disconnect, publishFrame };

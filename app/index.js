@@ -1,11 +1,11 @@
-const config = require('./config');
-const rpict = require('./rpict');
-const mqtt = require('./mqtt');
-const log = require('./log');
+import config from './config/index.js';
+import { connect as connectRpict, disconnect as disconnectRpict } from './rpict/index.js';
+import { connect as connectMqtt, disconnect as disconnectMqtt, publishFrame } from './mqtt/index.js';
+import log from './log/index.js';
 
 async function disconnect() {
-    await rpict.disconnect();
-    await mqtt.disconnect();
+    await disconnectRpict();
+    await disconnectMqtt();
 }
 
 async function run() {
@@ -14,14 +14,14 @@ async function run() {
 
     try {
         // Connect to MQTT
-        await mqtt.connect();
+        await connectMqtt();
 
         // Connect to serial port
-        const rpictEventEmitter = await rpict.connect();
+        const rpictEventEmitter = await connectRpict();
 
         // Register to frame events and publish to mqtt
         rpictEventEmitter.on('frame', (frame) => {
-            mqtt.publishFrame(frame);
+            publishFrame(frame);
         });
 
         // Graceful exit

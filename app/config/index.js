@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 // Configuration (default values)
 const config = {
@@ -35,9 +35,10 @@ function overrideConfiguration(overrideObject) {
         config.mqttBaseTopic = overrideObject.MQTT_BASE_TOPIC;
     }
     if (overrideObject.HASS_DISCOVERY !== undefined) {
-        config.hassDiscovery = typeof overrideObject.HASS_DISCOVERY === 'string' 
-            ? overrideObject.HASS_DISCOVERY.toLowerCase() === 'true'
-            : overrideObject.HASS_DISCOVERY;
+        config.hassDiscovery =
+            typeof overrideObject.HASS_DISCOVERY === 'string'
+                ? overrideObject.HASS_DISCOVERY.toLowerCase() === 'true'
+                : overrideObject.HASS_DISCOVERY;
     }
     if (overrideObject.HASS_DISCOVERY_PREFIX) {
         config.hassDiscoveryPrefix = overrideObject.HASS_DISCOVERY_PREFIX;
@@ -55,9 +56,10 @@ function overrideConfiguration(overrideObject) {
         config.precision = overrideObject.PRECISION;
     }
     if (overrideObject.ABSOLUTE_VALUES !== undefined) {
-        config.absoluteValues = typeof overrideObject.ABSOLUTE_VALUES === 'string'
-            ? overrideObject.ABSOLUTE_VALUES.toLowerCase() === 'true'
-            : overrideObject.ABSOLUTE_VALUES;
+        config.absoluteValues =
+            typeof overrideObject.ABSOLUTE_VALUES === 'string'
+                ? overrideObject.ABSOLUTE_VALUES.toLowerCase() === 'true'
+                : overrideObject.ABSOLUTE_VALUES;
     }
     if (overrideObject.SENSOR_VALUE_THRESHOLD) {
         config.sensorValueThreshold = overrideObject.SENSOR_VALUE_THRESHOLD;
@@ -79,4 +81,4 @@ if (process.env.HASSIO_ADDON && process.env.HASSIO_ADDON.toLowerCase() === 'true
 }
 
 // 3. Export the resolved configuration
-module.exports = config;
+export default config;

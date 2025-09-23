@@ -1,8 +1,11 @@
-const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
-const events = require('events');
-const log = require('../log');
-const { baudRate, precision, serial, deviceMapping, absoluteValues, sensorValueThreshold } = require('../config');
+import { SerialPort } from 'serialport';
+import { ReadlineParser } from '@serialport/parser-readline';
+import events from 'events';
+import fs from 'fs/promises';
+import log from '../log/index.js';
+import config from '../config/index.js';
+
+const { baudRate, precision, serial, deviceMapping, absoluteValues, sensorValueThreshold } = config;
 
 let serialPort;
 let deviceMappingJson;
@@ -157,14 +160,21 @@ function processError(error) {
  * Load device mapping, connect to serial port & start reading.
  */
 async function connect() {
-    return new Promise((resolve, reject) => {
-        // Load device mapping
-        log.info(`Loading device mapping [${deviceMapping}]...`);
-        deviceMappingJson = require(`./device-mapping/${deviceMapping}`);
+    // Load device mapping
+    log.info(`Loading device mapping [${deviceMapping}]...`);
+    const mappingModulePath = new URL(`./device-mapping/${deviceMapping}`, import.meta.url);
+
+    try {
+        deviceMappingJson = JSON.parse(await fs.readFile(mappingModulePath, 'utf8'));
         log.info(`Loaded device mapping [${deviceMapping}]`);
         log.debug(`Device mapping contents [${JSON.stringify(deviceMappingJson)}]`);
+    } catch (error) {
+        log.error(`Error loading device mapping: ${error.message}`);
+        throw error;
+    }
 
-        // Connect to serial port
+    // Connect to serial port
+    return new Promise((resolve, reject) => {
         log.info(`Connecting to port [${serial}]`);
         serialPort = new SerialPort({ path: serial, baudRate: baudRate }, (error) => {
             if (error) {
@@ -207,7 +217,4 @@ async function disconnect() {
     });
 }
 
-module.exports = {
-    connect,
-    disconnect,
-};
+export { connect, disconnect };

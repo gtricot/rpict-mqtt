@@ -1,9 +1,10 @@
 /**
  * Home Assistant related stuff.
  */
-const log = require('../log');
+import log from '../log/index.js';
+import config from '../config/index.js';
 
-const { mqttBaseTopic, hassDiscoveryPrefix } = require('../config');
+const { mqttBaseTopic, hassDiscoveryPrefix } = config;
 
 /**
  * Get frame topic.
@@ -81,6 +82,4 @@ async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
     return Promise.all(promises);
 }
 
-module.exports = {
-    publishConfigurationForHassDiscovery,
-};
+export { publishConfigurationForHassDiscovery };

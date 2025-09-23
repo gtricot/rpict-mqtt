@@ -10,7 +10,7 @@ describe('config module', () => {
     beforeEach(() => {
         // Clear module cache before each test
         jest.resetModules();
-        
+
         // Reset process.env to original state
         process.env = { ...originalEnv };
     });
@@ -35,7 +35,7 @@ describe('config module', () => {
             precision: 2,
             absoluteValues: false,
             sensorValueThreshold: 0,
-            logLevel: 'info'
+            logLevel: 'info',
         });
     });
 
@@ -90,7 +90,7 @@ describe('config module', () => {
             precision: 3,
             absoluteValues: true,
             sensorValueThreshold: 1.5,
-            logLevel: 'debug'
+            logLevel: 'debug',
         });
     });
 
