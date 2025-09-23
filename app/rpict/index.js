@@ -1,15 +1,11 @@
-const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
-const events = require('events');
-const log = require('../log');
-const {
-    baudRate,
-    precision,
-    serial,
-    deviceMapping,
-    absoluteValues,
-    sensorValueThreshold,
-} = require('../config');
+import { SerialPort } from 'serialport';
+import { ReadlineParser } from '@serialport/parser-readline';
+import events from 'events';
+import fs from 'fs/promises';
+import log from '../log/index.js';
+import config from '../config/index.js';
+
+const { baudRate, precision, serial, deviceMapping, absoluteValues, sensorValueThreshold } = config;
 
 let serialPort;
 let deviceMappingJson;
@@ -27,7 +23,9 @@ function sanitizeFloatValue(data, deviceMappingKey) {
 
     // Check for NaN value
     if (Number.isNaN(returnValue)) {
-        log.warn(`Nan value detected for float type key ${deviceMappingKey}. Original value : ${data}. Returning 0.0 instead`);
+        log.warn(
+            `Nan value detected for float type key ${deviceMappingKey}. Original value : ${data}. Returning 0.0 instead`,
+        );
         returnValue = 0.0;
     }
 
@@ -37,8 +35,13 @@ function sanitizeFloatValue(data, deviceMappingKey) {
         log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
     }
     // Set value to 0.0 if inferior to threshold
-    if ((returnValue > 0 && returnValue < sensorValueThreshold) || (returnValue < 0 && returnValue > -sensorValueThreshold)) {
-        log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for key ${deviceMappingKey}. Returning 0.0 instead`);
+    if (
+        (returnValue > 0 && returnValue < sensorValueThreshold) ||
+        (returnValue < 0 && returnValue > -sensorValueThreshold)
+    ) {
+        log.debug(
+            `Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for key ${deviceMappingKey}. Returning 0.0 instead`,
+        );
         returnValue = 0.0;
     }
 
@@ -58,7 +61,9 @@ function sanitizeIntValue(data, deviceMappingKey) {
 
     // Check for NaN value
     if (Number.isNaN(returnValue)) {
-        log.warn(`Nan value detected for integer type key ${deviceMappingKey}. Original value : ${data}. Returning 0 instead`);
+        log.warn(
+            `Nan value detected for integer type key ${deviceMappingKey}. Original value : ${data}. Returning 0 instead`,
+        );
         returnValue = 0;
     }
     // Invert negative value if parameterized
@@ -67,8 +72,13 @@ function sanitizeIntValue(data, deviceMappingKey) {
         log.debug(`Returning absolute value ${returnValue} for key ${deviceMappingKey}`);
     }
     // Set value to 0 if inferior to threshold
-    if ((returnValue > 0 && returnValue < sensorValueThreshold) || (returnValue < 0 && returnValue > -sensorValueThreshold)) {
-        log.debug(`Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${deviceMappingKey}. Returning 0 instead`);
+    if (
+        (returnValue > 0 && returnValue < sensorValueThreshold) ||
+        (returnValue < 0 && returnValue > -sensorValueThreshold)
+    ) {
+        log.debug(
+            `Return value ${returnValue} inferior to threshold ${sensorValueThreshold} for config item ${deviceMappingKey}. Returning 0 instead`,
+        );
         returnValue = 0;
     }
 
@@ -87,18 +97,20 @@ function sanitizeData(data, deviceMappingKey) {
     log.debug(`Sanitizing raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
 
     switch (valueType) {
-    case 'float':
-        returnValue = sanitizeFloatValue(data, deviceMappingKey);
-        break;
-    case 'integer':
-        returnValue = sanitizeIntValue(data, deviceMappingKey);
-        break;
-    case 'string':
-    default:
-        returnValue = data;
+        case 'float':
+            returnValue = sanitizeFloatValue(data, deviceMappingKey);
+            break;
+        case 'integer':
+            returnValue = sanitizeIntValue(data, deviceMappingKey);
+            break;
+        case 'string':
+        default:
+            returnValue = data;
     }
 
-    log.debug(`Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
+    log.debug(
+        `Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`,
+    );
     return returnValue;
 }
 
@@ -148,17 +160,23 @@ function processError(error) {
  * Load device mapping, connect to serial port & start reading.
  */
 async function connect() {
-    return new Promise((resolve, reject) => {
-        // Load device mapping
-        log.info(`Loading device mapping [${deviceMapping}]...`);
-        // eslint-disable-next-line
-        deviceMappingJson = require(`./device-mapping/${deviceMapping}`);
+    // Load device mapping
+    log.info(`Loading device mapping [${deviceMapping}]...`);
+    const mappingModulePath = new URL(`./device-mapping/${deviceMapping}`, import.meta.url);
+
+    try {
+        deviceMappingJson = JSON.parse(await fs.readFile(mappingModulePath, 'utf8'));
         log.info(`Loaded device mapping [${deviceMapping}]`);
         log.debug(`Device mapping contents [${JSON.stringify(deviceMappingJson)}]`);
+    } catch (error) {
+        log.error(`Error loading device mapping: ${error.message}`);
+        throw error;
+    }
 
-        // Connect to serial port
+    // Connect to serial port
+    return new Promise((resolve, reject) => {
         log.info(`Connecting to port [${serial}]`);
-        serialPort = new SerialPort( {path: serial, baudRate: baudRate}, (error) => {
+        serialPort = new SerialPort({ path: serial, baudRate: baudRate }, (error) => {
             if (error) {
                 log.error(`Error when connecting to serial port [${error.message}]`);
                 reject(error);
@@ -199,7 +217,4 @@ async function disconnect() {
     });
 }
 
-module.exports = {
-    connect,
-    disconnect,
-};
+export { connect, disconnect };

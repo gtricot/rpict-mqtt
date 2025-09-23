@@ -1,12 +1,10 @@
 /**
  * Home Assistant related stuff.
  */
-const log = require('../log');
+import log from '../log/index.js';
+import config from '../config/index.js';
 
-const {
-    mqttBaseTopic,
-    hassDiscoveryPrefix,
-} = require('../config');
+const { mqttBaseTopic, hassDiscoveryPrefix } = config;
 
 /**
  * Get frame topic.
@@ -54,30 +52,34 @@ function getValueTemplate(tag) {
  * @param frame
  */
 async function publishConfigurationForHassDiscovery(client, nodeID, frame) {
-    const promises = Object.keys(frame.data).filter((key) => key !== 'deviceMapping').map(async (tag) => {
-        const discoveryTopic = `${hassDiscoveryPrefix}/sensor/${mqttBaseTopic}/${nodeID}_${tag.toLowerCase()}/config`;
-        log.debug(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
-        return client.publish(discoveryTopic, JSON.stringify({
-            unique_id: `rpict_${nodeID}_${tag}`,
-            name: `RPICT ${nodeID} ${tag}`,
-            state_topic: getFrameTopic(nodeID),
-            value_template: getValueTemplate(tag),
-            device_class: getDeviceClass(tag, frame.deviceMapping),
-            state_class: 'measurement',
-            unit_of_measurement: getUnitOfMeasurement(tag, frame.deviceMapping),
-            device: {
-                identifiers: [nodeID],
-                manufacturer: 'LeChacal',
-                model: `rpict_${nodeID}`,
-                name: `RPICT ${nodeID}`,
-            },
-        }), {
-            retain: true,
+    const promises = Object.keys(frame.data)
+        .filter((key) => key !== 'deviceMapping')
+        .map(async (tag) => {
+            const discoveryTopic = `${hassDiscoveryPrefix}/sensor/${mqttBaseTopic}/${nodeID}_${tag.toLowerCase()}/config`;
+            log.debug(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
+            return client.publish(
+                discoveryTopic,
+                JSON.stringify({
+                    unique_id: `rpict_${nodeID}_${tag}`,
+                    name: `RPICT ${nodeID} ${tag}`,
+                    state_topic: getFrameTopic(nodeID),
+                    value_template: getValueTemplate(tag),
+                    device_class: getDeviceClass(tag, frame.deviceMapping),
+                    state_class: 'measurement',
+                    unit_of_measurement: getUnitOfMeasurement(tag, frame.deviceMapping),
+                    device: {
+                        identifiers: [nodeID],
+                        manufacturer: 'LeChacal',
+                        model: `rpict_${nodeID}`,
+                        name: `RPICT ${nodeID}`,
+                    },
+                }),
+                {
+                    retain: true,
+                },
+            );
         });
-    });
     return Promise.all(promises);
 }
 
-module.exports = {
-    publishConfigurationForHassDiscovery,
-};
+export { publishConfigurationForHassDiscovery };

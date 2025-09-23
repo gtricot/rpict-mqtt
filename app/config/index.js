@@ -1,7 +1,4 @@
-const fs = require('fs');
-
-// Location of hass.io addon options file
-const HASSIO_ADDON_OPTIONS_FILE = '/data/options.json';
+import fs from 'fs';
 
 // Configuration (default values)
 const config = {
@@ -37,8 +34,11 @@ function overrideConfiguration(overrideObject) {
     if (overrideObject.MQTT_BASE_TOPIC) {
         config.mqttBaseTopic = overrideObject.MQTT_BASE_TOPIC;
     }
-    if (overrideObject.HASS_DISCOVERY) {
-        config.hassDiscovery = overrideObject.HASS_DISCOVERY;
+    if (overrideObject.HASS_DISCOVERY !== undefined) {
+        config.hassDiscovery =
+            typeof overrideObject.HASS_DISCOVERY === 'string'
+                ? overrideObject.HASS_DISCOVERY.toLowerCase() === 'true'
+                : overrideObject.HASS_DISCOVERY;
     }
     if (overrideObject.HASS_DISCOVERY_PREFIX) {
         config.hassDiscoveryPrefix = overrideObject.HASS_DISCOVERY_PREFIX;
@@ -55,8 +55,11 @@ function overrideConfiguration(overrideObject) {
     if (overrideObject.PRECISION) {
         config.precision = overrideObject.PRECISION;
     }
-    if (overrideObject.ABSOLUTE_VALUES) {
-        config.absoluteValues = overrideObject.ABSOLUTE_VALUES;
+    if (overrideObject.ABSOLUTE_VALUES !== undefined) {
+        config.absoluteValues =
+            typeof overrideObject.ABSOLUTE_VALUES === 'string'
+                ? overrideObject.ABSOLUTE_VALUES.toLowerCase() === 'true'
+                : overrideObject.ABSOLUTE_VALUES;
     }
     if (overrideObject.SENSOR_VALUE_THRESHOLD) {
         config.sensorValueThreshold = overrideObject.SENSOR_VALUE_THRESHOLD;
@@ -71,10 +74,11 @@ overrideConfiguration(process.env);
 
 // 2. Load options.json and override default values (only if hass.io addon environment)
 if (process.env.HASSIO_ADDON && process.env.HASSIO_ADDON.toLowerCase() === 'true') {
-    const optionsBuffer = fs.readFileSync(HASSIO_ADDON_OPTIONS_FILE, 'utf8');
+    const optionsFile = process.env.HASSIO_OPTIONS_FILE || '/data/options.json';
+    const optionsBuffer = fs.readFileSync(optionsFile, 'utf8');
     const options = JSON.parse(optionsBuffer);
     overrideConfiguration(options);
 }
 
 // 3. Export the resolved configuration
-module.exports = config;
+export default config;

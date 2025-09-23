@@ -1,6 +1,6 @@
 {
   "name": "rpict-mqtt-doc",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "RPICT Mqtt doc",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,9 @@
   "repository": "gtricot/rpict-mqtt",
   "license": "MIT",
   "devDependencies": {
-    "docsify": "^4.13.0",
-    "docsify-cli": "^4.4.4"
+    "docsify": "^4.13.1",
+    "docsify-cli": "^4.4.4",
+    "dompurify": "^3.2.7",
+    "marked": "^16.3.0"
   }
 }

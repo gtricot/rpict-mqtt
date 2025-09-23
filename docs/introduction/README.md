@@ -2,13 +2,28 @@
 
 ![Docker pulls](https://img.shields.io/docker/pulls/gtricot/rpict-mqtt)
 ![License](https://img.shields.io/github/license/gtricot/rpict-mqtt)
-![Travis](https://img.shields.io/travis/gtricot/rpict-mqtt/master)
+![GitHub Actions](https://img.shields.io/github/actions/workflow/status/gtricot/rpict-mqtt/ci.yml)
 ![Maintainability](https://img.shields.io/codeclimate/maintainability/gtricot/rpict-mqtt)
 ![Coverage](https://img.shields.io/codeclimate/coverage/gtricot/rpict-mqtt)
 
-[**rpict-mqtt**](https://github.com/gtricot/rpict-mqtt) allows you to read [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) data from a Serial port and publish it to an MQTT broker.
+[**rpict-mqtt**](https://github.com/gtricot/rpict-mqtt) is a modern bridge between [LeChacal RPICT series devices](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) and MQTT, designed for seamless integration with home automation systems like Home Assistant.
 
-Currently supported devices :
+## Features
+
+- 📊 Real-time monitoring of electrical measurements
+- 🔌 Easy integration with MQTT systems
+- 🏠 Native Home Assistant support with auto-discovery
+- 🐳 Available as Docker container and Home Assistant add-on
+- ⚡ Support for multiple RPICT models and measurements:
+  - Voltage (V)
+  - Current (A)
+  - Power (W)
+  - Energy (kWh)
+  - Power Factor (%)
+
+## Supported Devices
+
+All major RPICT models are supported:
 
 - [RPICT3T1](http://lechacal.com/wiki/index.php?title=RPICT3T1) / [RPIZ_CT3T1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3T1)
 - [RPICT3V1](http://lechacal.com/wiki/index.php?title=RPICT3V1) / [RPIZ_CT3V1](http://lechacal.com/wiki/index.php?title=RPIZ_CT3V1)
@@ -18,15 +33,27 @@ Currently supported devices :
 
 ## Quick start
 
-### Setup your device
+### 1. Setup your RPICT Device
 
-Setup your [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) following [LeChacal official documentation](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor#First_time_use)
+1. Follow the [LeChacal official documentation](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor#First_time_use) to set up your device
+2. Connect your RPICT device to your system
+3. Note the serial port (default is `/dev/ttyAMA0`)
 
-### Run the Docker image
+### 2. Choose Your Installation Method
 
-Deploy and run the [official _**rpict-mqtt**_ image](https://hub.docker.com/r/gtricot/rpict-mqtt).
+#### A. Home Assistant Add-on (Recommended)
 
-Read the [configuration page](configuration/) to see available configuration options.
+1. Add our repository to your Home Assistant add-on store
+2. Install the "RPICT MQTT" add-on
+3. Configure and start the add-on
+
+See the [Home Assistant Integration](hass/) section for detailed instructions.
+
+#### B. Docker Container
+
+Deploy using the [official rpict-mqtt image](https://hub.docker.com/r/gtricot/rpict-mqtt).
+
+See the [configuration page](configuration/) for all available options.
 
 <!-- tabs:start -->
 
@@ -65,14 +92,25 @@ docker run -d --name rpict2mqtt \
 ```
 <!-- tabs:end -->
 
-## Contact & Support
+## Documentation
 
-- Create a [GitHub issue](https://github.com/gtricot/rpict-mqtt/issues) for bug reports, feature requests, or questions
-- Add a ⭐️ [star on GitHub](https://github.com/gtricot/rpict-mqtt) to support the project!
+- [Configuration Options](configuration/) - Customize your setup
+- [Home Assistant Integration](hass/) - Set up Home Assistant auto-discovery
+- [MQTT Topics](mqtt/) - Understand the MQTT message structure
+- [Changelog](changelog/) - See version history and updates
+
+## Need Help?
+
+- 📚 Check the documentation sections above
+- 🐛 Report bugs or request features on [GitHub Issues](https://github.com/gtricot/rpict-mqtt/issues)
+- 💡 Ask questions in [GitHub Discussions](https://github.com/gtricot/rpict-mqtt/discussions)
+- ⭐ Support the project by [starring it on GitHub](https://github.com/gtricot/rpict-mqtt)!
 
 ## License
 
 This project is licensed under the [MIT license](https://github.com/gtricot/rpict-mqtt/blob/master/LICENSE).
+
+?> Last updated: September 2025
 
 <!-- GitHub Buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

@@ -3,8 +3,7 @@
 const rewire = require('rewire');
 const mqttAsync = require('async-mqtt');
 
-mqttAsync.connectAsync = jest.fn(() => {
-});
+mqttAsync.connectAsync = jest.fn(() => {});
 const mqtt = require('./index');
 
 const sampleFrame = {
@@ -31,8 +30,7 @@ const sampleFrame = {
 test('connect should be called as expected', async () => {
     const moduleToTest = rewire('./index');
     moduleToTest.__set__('client', {
-        publish: jest.fn(() => {
-        }),
+        publish: jest.fn(() => {}),
     });
     await mqtt.connect();
     expect(mqttAsync.connectAsync).toHaveBeenCalledWith('mqtt://localhost:1883', {});
@@ -41,8 +39,7 @@ test('connect should be called as expected', async () => {
 test('disconnect should be called as expected', async () => {
     const moduleToTest = rewire('./index');
     moduleToTest.__set__('client', {
-        end: jest.fn(() => {
-        }),
+        end: jest.fn(() => {}),
     });
     await moduleToTest.disconnect();
     expect(moduleToTest.__get__('client').end).toHaveBeenCalledTimes(1);
@@ -51,8 +48,7 @@ test('disconnect should be called as expected', async () => {
 test('publishFrame should be called as expected', () => {
     const moduleToTest = rewire('./index');
     moduleToTest.__set__('client', {
-        publish: jest.fn(() => {
-        }),
+        publish: jest.fn(() => {}),
     });
     moduleToTest.__set__('discoveryConfigurationPublished', true);
     moduleToTest.publishFrame(sampleFrame);

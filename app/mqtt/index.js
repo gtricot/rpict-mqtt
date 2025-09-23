@@ -1,15 +1,9 @@
-const mqtt = require('async-mqtt');
-const log = require('../log');
+import mqtt from 'async-mqtt';
+import log from '../log/index.js';
+import config from '../config/index.js';
+import { publishConfigurationForHassDiscovery } from './hass.js';
 
-const {
-    mqttUrl,
-    mqttUser,
-    mqttPassword,
-    mqttBaseTopic,
-    hassDiscovery,
-} = require('../config');
-
-const { publishConfigurationForHassDiscovery } = require('./hass');
+const { mqttUrl, mqttUser, mqttPassword, mqttBaseTopic, hassDiscovery } = config;
 
 /**
  * True when hass discovery configuration has been published.
@@ -62,7 +56,6 @@ async function connect() {
         if (client) {
             client.on('connect', () => {
                 // Workaround to avoid reconnect issue (see https://github.com/mqttjs/MQTT.js/issues/1213)
-                // eslint-disable-next-line no-underscore-dangle
                 client._client.options.properties = {};
             });
             client.on('reconnect', () => {
@@ -119,8 +112,4 @@ async function publishFrame(frame) {
     }
 }
 
-module.exports = {
-    connect,
-    disconnect,
-    publishFrame,
-};
+export { connect, disconnect, publishFrame };
