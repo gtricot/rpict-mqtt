@@ -1,6 +1,6 @@
 {
   "name": "rpict-mqtt-doc",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "RPICT Mqtt doc",
   "main": "index.js",
   "scripts": {

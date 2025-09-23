@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1 (2025-09-23)
+
+### Bug Fixes
+- Fix incorrect unit of measurement in device mapping RPICT7V1.json
+
 ## 3.0.0 (2025-09-23)
 
 ### Breaking Changes
