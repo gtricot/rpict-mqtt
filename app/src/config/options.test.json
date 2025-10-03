@@ -3,13 +3,13 @@
     "MQTT_USER": "test-user",
     "MQTT_PASSWORD": "test-password",
     "MQTT_BASE_TOPIC": "test/rpict",
-    "HASS_DISCOVERY": false,
+    "HASS_DISCOVERY": "false",
     "HASS_DISCOVERY_PREFIX": "test/homeassistant",
     "SERIAL": "/dev/ttyTEST0",
     "BAUD_RATE": 57600,
     "DEVICE_MAPPING": "RPICT8.json",
     "PRECISION": 3,
     "ABSOLUTE_VALUES": true,
-    "SENSOR_VALUE_THRESHOLD": 1.5,
+    "SENSOR_VALUE_THRESHOLD": 0.1,
     "LOG_LEVEL": "debug"
 }

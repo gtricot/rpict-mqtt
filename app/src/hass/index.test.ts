@@ -1,6 +1,9 @@
-const hass = require('./hass');
+import * as hass from './index';
+import type { AsyncMqttClient } from 'async-mqtt';
+import { Frame } from '../types';
 
-const sampleFrame = {
+const sampleFrame: Frame = {
+    timestamp: Date.now(),
     data: {
         NodeID: '11',
         RP1: '180.5',
@@ -104,8 +107,8 @@ const sampleFrame = {
 
 test('publishConfigurationForDiscovery should be called as expected', async () => {
     const mqttClientMock = {
-        publish: jest.fn(() => {}),
-    };
+        publish: jest.fn(() => Promise.resolve()),
+    } as unknown as AsyncMqttClient;
     await hass.publishConfigurationForHassDiscovery(mqttClientMock, '11', sampleFrame);
     expect(mqttClientMock.publish).toHaveBeenCalledTimes(16);
     expect(mqttClientMock.publish).toHaveBeenNthCalledWith(
@@ -117,13 +120,13 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             state_topic: 'rpict/11',
             value_template: '{{ value_json.NodeID }}',
             state_class: 'measurement',
-            unit_of_measurement: '#',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            unit_of_measurement: '#',
         }),
         { retain: true },
     );
@@ -135,15 +138,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP1',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP1 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -155,15 +158,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP2',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP2 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -175,15 +178,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP3',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP3 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -195,15 +198,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP4',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP4 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -215,15 +218,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP5',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP5 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -235,15 +238,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP6',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP6 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -255,15 +258,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 RP7',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.RP7 }}',
-            device_class: 'power',
             state_class: 'measurement',
-            unit_of_measurement: 'W',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'power',
+            unit_of_measurement: 'W',
         }),
         { retain: true },
     );
@@ -275,15 +278,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms1',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms1 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -295,15 +298,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms2',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms2 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -315,15 +318,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms3',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms3 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -335,15 +338,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms4',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms4 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -355,15 +358,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms5',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms5 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -375,15 +378,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms6',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms6 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -395,15 +398,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Irms7',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Irms7 }}',
-            device_class: 'current',
             state_class: 'measurement',
-            unit_of_measurement: 'mA',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'current',
+            unit_of_measurement: 'mA',
         }),
         { retain: true },
     );
@@ -415,15 +418,15 @@ test('publishConfigurationForDiscovery should be called as expected', async () =
             name: 'RPICT 11 Vrms',
             state_topic: 'rpict/11',
             value_template: '{{ value_json.Vrms }}',
-            device_class: 'voltage',
             state_class: 'measurement',
-            unit_of_measurement: 'V',
             device: {
                 identifiers: ['11'],
                 manufacturer: 'LeChacal',
                 model: 'rpict_11',
                 name: 'RPICT 11',
             },
+            device_class: 'voltage',
+            unit_of_measurement: 'V',
         }),
         { retain: true },
     );

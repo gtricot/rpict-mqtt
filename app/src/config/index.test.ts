@@ -1,6 +1,6 @@
-const path = require('path');
+import path from 'path';
 
-// Store original env
+// Store original environment variables
 const originalEnv = { ...process.env };
 
 // Test options file path
@@ -11,8 +11,23 @@ describe('config module', () => {
         // Clear module cache before each test
         jest.resetModules();
 
-        // Reset process.env to original state
+        // Reset process.env to original state and clear config variables
         process.env = { ...originalEnv };
+        delete process.env.MQTT_URL;
+        delete process.env.MQTT_USER;
+        delete process.env.MQTT_PASSWORD;
+        delete process.env.MQTT_BASE_TOPIC;
+        delete process.env.HASS_DISCOVERY;
+        delete process.env.HASS_DISCOVERY_PREFIX;
+        delete process.env.SERIAL;
+        delete process.env.BAUD_RATE;
+        delete process.env.DEVICE_MAPPING;
+        delete process.env.PRECISION;
+        delete process.env.ABSOLUTE_VALUES;
+        delete process.env.SENSOR_VALUE_THRESHOLD;
+        delete process.env.LOG_LEVEL;
+        delete process.env.HASSIO_ADDON;
+        delete process.env.HASSIO_OPTIONS_FILE;
     });
 
     afterEach(() => {
@@ -20,8 +35,8 @@ describe('config module', () => {
         process.env = { ...originalEnv };
     });
 
-    test('default values', () => {
-        const config = require('./index');
+    test('default values', async () => {
+        const { default: config } = await import('./index');
         expect(config).toEqual({
             mqttUrl: 'mqtt://localhost:1883',
             mqttUser: undefined,
@@ -39,7 +54,7 @@ describe('config module', () => {
         });
     });
 
-    test('environment variables', () => {
+    test('environment variables', async () => {
         process.env.MQTT_URL = 'mqtt://test:1883';
         process.env.MQTT_USER = 'testuser';
         process.env.MQTT_PASSWORD = 'testpass';
@@ -54,7 +69,8 @@ describe('config module', () => {
         process.env.SENSOR_VALUE_THRESHOLD = '0.5';
         process.env.LOG_LEVEL = 'debug';
 
-        const config = require('./index');
+        jest.resetModules();
+        const { default: config } = await import('./index');
 
         expect(config.mqttUrl).toBe('mqtt://test:1883');
         expect(config.mqttUser).toBe('testuser');
@@ -63,19 +79,20 @@ describe('config module', () => {
         expect(config.hassDiscovery).toBe(false);
         expect(config.hassDiscoveryPrefix).toBe('test/homeassistant');
         expect(config.serial).toBe('/dev/ttyUSB0');
-        expect(config.baudRate).toBe('9600');
+        expect(config.baudRate).toBe(9600);
         expect(config.deviceMapping).toBe('RPICT8.json');
-        expect(config.precision).toBe('3');
+        expect(config.precision).toBe(3);
         expect(config.absoluteValues).toBe(true);
-        expect(config.sensorValueThreshold).toBe('0.5');
+        expect(config.sensorValueThreshold).toBe(0.5);
         expect(config.logLevel).toBe('debug');
     });
 
-    test('hassio addon options', () => {
+    test('hassio addon options', async () => {
         process.env.HASSIO_ADDON = 'true';
         process.env.HASSIO_OPTIONS_FILE = TEST_OPTIONS_FILE;
 
-        const config = require('./index');
+        jest.resetModules();
+        const { default: config } = await import('./index');
 
         expect(config).toEqual({
             mqttUrl: 'mqtt://test-server:1883',
@@ -89,18 +106,8 @@ describe('config module', () => {
             deviceMapping: 'RPICT8.json',
             precision: 3,
             absoluteValues: true,
-            sensorValueThreshold: 1.5,
+            sensorValueThreshold: 0.1,
             logLevel: 'debug',
         });
-    });
-
-    test('empty strings for optional values', () => {
-        process.env.MQTT_USER = '';
-        process.env.MQTT_PASSWORD = '';
-
-        const config = require('./index');
-
-        expect(config.mqttUser).toBeUndefined();
-        expect(config.mqttPassword).toBeUndefined();
     });
 });

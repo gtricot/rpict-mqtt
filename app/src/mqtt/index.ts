@@ -1,7 +1,8 @@
-import mqtt from 'async-mqtt';
-import log from '../log/index.js';
-import config from '../config/index.js';
-import { publishConfigurationForHassDiscovery } from './hass.js';
+import mqtt, { IClientOptions, AsyncMqttClient } from 'async-mqtt';
+import log from '../log/index';
+import config from '../config/index';
+import { publishConfigurationForHassDiscovery } from '../hass/index';
+import { Frame } from '../types';
 
 const { mqttUrl, mqttUser, mqttPassword, mqttBaseTopic, hassDiscovery } = config;
 
@@ -14,23 +15,23 @@ let discoveryConfigurationPublished = false;
 /**
  * MQTT Client.
  */
-let client;
+let client: AsyncMqttClient;
 
 /**
  * Get frame topic.
- * @param nodeID
- * @returns {string}
+ * @param {string} nodeID Node ID
+ * @returns {string} Frame topic
  */
-function getFrameTopic(nodeID) {
+function getFrameTopic(nodeID: string): string {
     return `${mqttBaseTopic}/${nodeID}`;
 }
 
 /**
  * Get MQTT client options.
- * @returns MQTT client options
+ * @returns {IClientOptions} MQTT client options
  */
-function getMqttClientOptions() {
-    const options = {};
+function getMqttClientOptions(): IClientOptions {
+    const options: IClientOptions = {};
     if (mqttUser) {
         options.username = mqttUser;
     }
@@ -43,20 +44,20 @@ function getMqttClientOptions() {
 /**
  * Connect to MQTT broker.
  */
-async function connect() {
+export async function connectMqtt() {
     log.info(`Connecting to MQTT broker [${mqttUrl}]`);
     try {
         client = await mqtt.connectAsync(mqttUrl, getMqttClientOptions());
         log.info(`Connected to MQTT broker [${mqttUrl}]`);
     } catch (e) {
-        log.error(`MQTT connection error [${e.message}]`);
+        log.error(`MQTT connection error [${(e as Error).message}]`);
         throw e;
     }
     try {
         if (client) {
             client.on('connect', () => {
                 // Workaround to avoid reconnect issue (see https://github.com/mqttjs/MQTT.js/issues/1213)
-                client._client.options.properties = {};
+                (client as any)._client.options.properties = {};
             });
             client.on('reconnect', () => {
                 log.info('Reconnecting to the MQTT broker...');
@@ -66,7 +67,7 @@ async function connect() {
             });
         }
     } catch (e) {
-        log.error(`MQTT connection error [${e.message}]`);
+        log.error(`MQTT connection error [${(e as Error).message}]`);
         throw e;
     }
 }
@@ -74,7 +75,7 @@ async function connect() {
 /**
  * Disconnect from MQTT broker.
  */
-async function disconnect() {
+export async function disconnectMqtt() {
     log.info(`Disconnecting from MQTT broker [${mqttUrl}]`);
     try {
         await client.end();
@@ -86,11 +87,11 @@ async function disconnect() {
 }
 
 /**
- * Publish RPICT frame to MQTT broker.
- * @param {*} frame
+ * Publish a frame to MQTT.
+ * @param {Frame} frame Frame data
  */
-async function publishFrame(frame) {
-    const nodeID = frame.data ? frame.data.NodeID : undefined;
+export async function publishMqttFrame(frame: Frame): Promise<void> {
+    const nodeID = frame.data ? String(frame.data.NodeID) : undefined;
     if (!nodeID) {
         log.warn(`Cannot publish a frame without NodeID property : ${frame}`);
     } else {
@@ -99,7 +100,7 @@ async function publishFrame(frame) {
                 await publishConfigurationForHassDiscovery(client, nodeID, frame);
                 discoveryConfigurationPublished = true;
             } catch (e) {
-                log.warn(`Unable to publish discovery configuration (${e.message}) : ${e}`);
+                log.warn(`Unable to publish discovery configuration (${(e as Error).message}) : ${e}`);
             }
         }
         const frameTopic = getFrameTopic(nodeID);
@@ -107,9 +108,7 @@ async function publishFrame(frame) {
         try {
             await client.publish(frameTopic, JSON.stringify(frame.data));
         } catch (e) {
-            log.warn(`Unable to publish frame to ${frameTopic} (${e.message}) : ${e}`);
+            log.warn(`Unable to publish frame to ${frameTopic} (${(e as Error).message}) : ${e}`);
         }
     }
 }
-
-export { connect, disconnect, publishFrame };
