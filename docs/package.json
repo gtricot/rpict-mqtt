@@ -12,7 +12,7 @@
   "devDependencies": {
     "docsify": "^4.13.1",
     "docsify-cli": "^4.4.4",
-    "dompurify": "^3.2.7",
-    "marked": "^16.3.0"
+    "dompurify": "^3.3.1",
+    "marked": "^17.0.1"
   }
 }
