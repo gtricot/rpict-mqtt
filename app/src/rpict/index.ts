@@ -1,22 +1,24 @@
+import path from 'path';
 import { SerialPort } from 'serialport';
 import { ReadlineParser } from '@serialport/parser-readline';
-import events from 'events';
+import { EventEmitter } from 'events';
 import fs from 'fs/promises';
-import log from '../log/index.js';
-import config from '../config/index.js';
+import log from '../log/index';
+import config from '../config/index';
+import { Frame, DeviceMappingEntry } from '../types';
 
 const { baudRate, precision, serial, deviceMapping, absoluteValues, sensorValueThreshold } = config;
 
-let serialPort;
-let deviceMappingJson;
+let serialPort: SerialPort;
+let deviceMappingJson: Record<string, DeviceMappingEntry>;
 
 /**
  * Sanitize float value
- * @param {*} data Raw float value
- * @param {*} deviceMappingKey Device mapping key
- * @returns Sanitized float value
+ * @param {string} data Raw float value
+ * @param {string} deviceMappingKey Device mapping key
+ * @returns {number} Sanitized float value
  */
-function sanitizeFloatValue(data, deviceMappingKey) {
+function sanitizeFloatValue(data: string, deviceMappingKey: string): number {
     // Parse value
     let returnValue = Number(parseFloat(data).toFixed(precision));
     log.debug(`Sanitizing float value ${returnValue} for key ${deviceMappingKey} with ${precision} decimals`);
@@ -50,11 +52,11 @@ function sanitizeFloatValue(data, deviceMappingKey) {
 
 /**
  * Sanitize int value
- * @param {*} data Raw int value
- * @param {*} deviceMappingKey Device mapping key
- * @returns Sanitized int value
+ * @param {string} data Raw int value
+ * @param {string} deviceMappingKey Device mapping key
+ * @returns {number} Sanitized int value
  */
-function sanitizeIntValue(data, deviceMappingKey) {
+function sanitizeIntValue(data: string, deviceMappingKey: string): number {
     // Parse value
     let returnValue = parseInt(data, 10);
     log.debug(`Sanitizing int value ${returnValue} for key ${deviceMappingKey}`);
@@ -86,12 +88,12 @@ function sanitizeIntValue(data, deviceMappingKey) {
 }
 
 /**
- * Sanitize raw data
- * @param {*} data Raw data
- * @param {*} deviceMappingKey Device mapping key
- * @returns Sanitized data
+ * Sanitize data based on device mapping key.
+ * @param {string} data Raw data value
+ * @param {string} deviceMappingKey Device mapping key
+ * @returns {number} Sanitized data value
  */
-function sanitizeData(data, deviceMappingKey) {
+function sanitizeData(data: string, deviceMappingKey: string): number {
     let returnValue;
     const valueType = deviceMappingJson[deviceMappingKey].type;
     log.debug(`Sanitizing raw data ${data} with type ${valueType} for key ${deviceMappingKey}`);
@@ -111,15 +113,15 @@ function sanitizeData(data, deviceMappingKey) {
     log.debug(
         `Sanitized value ${returnValue} from raw data ${data} with type ${valueType} for key ${deviceMappingKey}`,
     );
-    return returnValue;
+    return typeof returnValue === 'string' ? parseFloat(returnValue) : returnValue;
 }
 
 /**
- * Process data.
- * @param {*} data
- * @param {*} rpictEventEmitter
+ * Process data and emit events.
+ * @param {string} data Raw data
+ * @param {EventEmitter} rpictEventEmitter Event emitter for RPICT
  */
-function processData(data, rpictEventEmitter) {
+function processData(data: string, rpictEventEmitter: EventEmitter): void {
     // Example of values: http://lechacal.com/wiki/index.php?title=RPICT7V1_v2.0
     // NodeID RP1 RP2 RP3 RP4  RP5 RP6 RP7  rms1  Irms2 Irms3 Irms4 Irms5 Irms6  Irms7  Vrms
     // 11     0.0 0.0 0.0 -0.0 0.0 0.0 -0.0 202.1 208.6 235.3 207.2 223.4 3296.3 2310.8 0.9
@@ -128,15 +130,16 @@ function processData(data, rpictEventEmitter) {
     let count = 0;
 
     // Init frame
-    const frame = {
+    const frame: Frame = {
         data: {},
+        timestamp: Date.now(),
         deviceMapping: deviceMappingJson,
     };
 
     // Read sensor mapping from JSON file.
     Object.keys(deviceMappingJson).forEach((key) => {
         try {
-            frame.data[key] = sanitizeData(values[count], key);
+            (frame.data as Record<string, string | number>)[key] = sanitizeData(values[count], key);
         } catch (e) {
             log.error(e);
         }
@@ -148,28 +151,41 @@ function processData(data, rpictEventEmitter) {
 }
 
 /**
- * Process errors.
- * @param {*} error
+ * Disconnect from serial port.
+ * @returns Promise<void>
  */
-function processError(error) {
-    log.error('Error on reading data');
-    log.error(error);
+export async function disconnectRpict(): Promise<void> {
+    log.info(`Disconnecting from serial port [${serial}]`);
+    return new Promise<void>((resolve, reject) => {
+        serialPort.close((e) => {
+            if (e) {
+                log.error(`Error on disconnecting from serial port [${serial}]`);
+                reject(e);
+            } else {
+                log.info(`Disconnected from serial port [${serial}]`);
+                resolve();
+            }
+        });
+    });
 }
 
 /**
- * Load device mapping, connect to serial port & start reading.
+ * Connect to RPICT device
+ * @returns EventEmitter for RPICT events
  */
-async function connect() {
+export async function connectRpict(): Promise<EventEmitter> {
+    const eventEmitter = new EventEmitter();
+
     // Load device mapping
     log.info(`Loading device mapping [${deviceMapping}]...`);
-    const mappingModulePath = new URL(`./device-mapping/${deviceMapping}`, import.meta.url);
+    const mappingModulePath = path.join(__dirname, `device-mapping/${deviceMapping}`);
 
     try {
         deviceMappingJson = JSON.parse(await fs.readFile(mappingModulePath, 'utf8'));
         log.info(`Loaded device mapping [${deviceMapping}]`);
         log.debug(`Device mapping contents [${JSON.stringify(deviceMappingJson)}]`);
     } catch (error) {
-        log.error(`Error loading device mapping: ${error.message}`);
+        log.error(`Error loading device mapping: ${(error as Error).message}`);
         throw error;
     }
 
@@ -184,37 +200,15 @@ async function connect() {
                 log.info(`Connected to port [${serial}]`);
                 const parser = serialPort.pipe(new ReadlineParser());
                 log.info(`Initialized serial port parser`);
-                const rpictEventEmitter = new events.EventEmitter();
-                log.info(`Created RPICT event emitter`);
 
                 // Process data
-                parser.on('data', (data) => processData(data, rpictEventEmitter));
+                parser.on('data', (data) => processData(data, eventEmitter));
 
                 // Process error
-                parser.on('error', processError);
+                parser.on('error', (error) => log.error(`Error when reading from serial port [${error.message}]`));
 
-                resolve(rpictEventEmitter);
+                resolve(eventEmitter);
             }
         });
     });
 }
-
-/**
- * Disconnect from serial port.
- */
-async function disconnect() {
-    log.info(`Disconnecting from serial port [${serial}]`);
-    return new Promise((resolve, reject) => {
-        serialPort.close((e) => {
-            if (e) {
-                log.error(`Error on disconnecting from serial port [${serial}]`);
-                reject(e);
-            } else {
-                log.info(`Disconnected from serial port [${serial}]`);
-                resolve();
-            }
-        });
-    });
-}
-
-export { connect, disconnect };
