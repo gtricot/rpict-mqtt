@@ -14,7 +14,7 @@ RPICT-MQTT is available as a Home Assistant add-on. To install:
    - Navigate to Settings → Add-ons → Add-on Store
    - Click the ⋮ menu in the top right
    - Select "Repositories"
-   - Add: `https://github.com/gtricot/rpict-mqtt`
+   - Add: `https://github.com/gtricot/hassio-addons`
 
 2. Install the "RPICT MQTT" add-on
 3. Configure the add-on with your RPICT settings
