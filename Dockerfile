@@ -24,4 +24,4 @@ ENV LOG_FORMAT=text
 # ENV DEBUG=serialport*
 
 # Default Command
-CMD ["node", "index.ts"]
+CMD ["ts-node", "index.ts"]
