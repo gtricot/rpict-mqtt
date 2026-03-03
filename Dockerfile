@@ -14,8 +14,14 @@ WORKDIR /app
 # Copy node app
 COPY app/ ./
 
-# Install node dependendencies
-RUN npm ci --omit=dev && npm rebuild --build-from-source
+# Install all dependencies (including devDependencies for TypeScript compilation)
+RUN npm ci && npm rebuild --build-from-source
+
+# Build TypeScript to JavaScript
+RUN npm run build
+
+# Remove devDependencies to reduce image size
+RUN npm prune --omit=dev
 
 # Default log format
 ENV LOG_FORMAT=text
@@ -29,4 +35,4 @@ RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
 # Default Command
-CMD ["node", "index"]
+CMD ["node", "dist/index.js"]
