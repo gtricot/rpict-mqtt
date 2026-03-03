@@ -1,4 +1,4 @@
-# **rpict-mqtt** <small>4.0.0</small>
+# **rpict-mqtt** <small>4.0.0-beta.1</small>
 
 <img src="rpict-mqtt-logo.png" alt="logo" width="50%" />
 

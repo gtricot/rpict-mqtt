@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.0.0 (2026-01-14)
+## 4.0.0-beta.1 (2026-03-03)
 
 ### Breaking Changes
 - Migrated all JavaScript source files to TypeScript
