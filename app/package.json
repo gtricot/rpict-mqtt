@@ -6,7 +6,7 @@
     "scripts": {
         "start": "ts-node src/index.ts | bunyan -L -o short",
         "build": "tsc",
-        "postbuild": "cpy src/**/device-mapping/*.json dist",
+        "postbuild": "cpy --cwd=src **/device-mapping/*.json ../dist",
         "lint": "eslint . --config eslint.config.js",
         "format": "prettier --write .",
         "format:check": "prettier --check .",
