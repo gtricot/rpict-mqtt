@@ -18,7 +18,7 @@ COPY app/ ./
 RUN npm ci && npm rebuild --build-from-source
 
 # Build TypeScript to JavaScript
-RUN npm run build && ls -lR dist/
+RUN npm run build
 
 # Remove devDependencies to reduce image size
 RUN npm prune --omit=dev
