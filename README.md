@@ -2,9 +2,6 @@
 
 ![Docker pulls](https://img.shields.io/docker/pulls/gtricot/rpict-mqtt)
 ![License](https://img.shields.io/github/license/gtricot/rpict-mqtt)
-![Travis](https://img.shields.io/travis/gtricot/rpict-mqtt/master)
-![Maintainability](https://img.shields.io/codeclimate/maintainability/gtricot/rpict-mqtt)
-![Coverage](https://img.shields.io/codeclimate/coverage/gtricot/rpict-mqtt)
 
 [**rpict-mqtt**](https://github.com/gtricot/rpict-mqtt) allows you to read [LeChacal RPICT series device](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) data from a Serial port and publish it to an MQTT broker.
 

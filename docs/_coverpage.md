@@ -6,7 +6,7 @@
 
 - 🏠 Native Home Assistant integration
 - ⚡ Real-time power & energy monitoring
-- 🐳 Available as Docker container & Home Assistant add-on
+- 🐳 Available as Docker container & Home Assistant App
 - 🔌 Supports all RPICT models
 - 🚀 Easy setup & configuration
 

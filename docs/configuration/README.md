@@ -1,6 +1,6 @@
 # Configuration
 
-rpict-mqtt can be configured using Environment Variables or through Home Assistant Add-on configuration when running as a Home Assistant add-on.
+rpict-mqtt can be configured using Environment Variables or through Home Assistant App configuration when running as a Home Assistant App.
 
 ## Configuration Options
 

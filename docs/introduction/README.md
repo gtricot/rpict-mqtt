@@ -3,8 +3,6 @@
 ![Docker pulls](https://img.shields.io/docker/pulls/gtricot/rpict-mqtt)
 ![License](https://img.shields.io/github/license/gtricot/rpict-mqtt)
 ![GitHub Actions](https://img.shields.io/github/actions/workflow/status/gtricot/rpict-mqtt/ci.yml)
-![Maintainability](https://img.shields.io/codeclimate/maintainability/gtricot/rpict-mqtt)
-![Coverage](https://img.shields.io/codeclimate/coverage/gtricot/rpict-mqtt)
 
 [**rpict-mqtt**](https://github.com/gtricot/rpict-mqtt) is a modern bridge between [LeChacal RPICT series devices](http://lechacal.com/wiki/index.php?title=Raspberrypi_Current_and_Temperature_Sensor_Adaptor) and MQTT, designed for seamless integration with home automation systems like Home Assistant.
 
@@ -13,7 +11,7 @@
 - 📊 Real-time monitoring of electrical measurements
 - 🔌 Easy integration with MQTT systems
 - 🏠 Native Home Assistant support with auto-discovery
-- 🐳 Available as Docker container and Home Assistant add-on
+- 🐳 Available as Docker container and Home Assistant App
 - ⚡ Support for multiple RPICT models and measurements:
   - Voltage (V)
   - Current (A)
@@ -41,11 +39,11 @@ All major RPICT models are supported:
 
 ### 2. Choose Your Installation Method
 
-#### A. Home Assistant Add-on (Recommended)
+#### A. Home Assistant App (Recommended)
 
-1. Add our repository to your Home Assistant add-on store
-2. Install the "RPICT MQTT" add-on
-3. Configure and start the add-on
+1. Add our repository to your Home Assistant apps store
+2. Install the `RPICT to MQTT Bridge (Stable Version)` app
+3. Configure and start the app
 
 See the [Home Assistant Integration](hass/) section for detailed instructions.
 
@@ -110,7 +108,7 @@ docker run -d --name rpict2mqtt \
 
 This project is licensed under the [MIT license](https://github.com/gtricot/rpict-mqtt/blob/master/LICENSE).
 
-?> Last updated: September 2025
+?> Last updated: March 2026
 
 <!-- GitHub Buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

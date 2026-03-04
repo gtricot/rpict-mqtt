@@ -6,19 +6,20 @@
 
 You can integrate RPICT-MQTT with Home Assistant in two ways:
 
-### 1. Home Assistant Add-on (Recommended)
+### 1. Home Assistant App (Recommended)
 
-RPICT-MQTT is available as a Home Assistant add-on. To install:
+RPICT to MQTT Bridge is available as an Home Assistant App. To install:
 
-1. Add our repository to your Home Assistant add-on store:
-   - Navigate to Settings → Add-ons → Add-on Store
+1. Add our repository to your Home Assistant Apps store:
+   - Navigate to Settings > Apps
    - Click the ⋮ menu in the top right
    - Select "Repositories"
    - Add: `https://github.com/gtricot/hassio-addons`
 
-2. Install the "RPICT MQTT" add-on
-3. Configure the add-on with your RPICT settings
-4. Start the add-on
+2. Install the `RPICT to MQTT Bridge (Stable Version)` app
+3. Configure the app with your RPICT and MQTT settings
+4. Start the app
+5. Check the logs
 
 ### 2. Docker Container
 
