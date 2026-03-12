@@ -5,11 +5,10 @@
     "main": "index.ts",
     "scripts": {
         "start": "ts-node src/index.ts | bunyan -L -o short",
-        "build": "tsc",
+        "build": "prettier --check . && eslint . --config eslint.config.js && tsc",
         "postbuild": "cpy --cwd=src **/device-mapping/*.json ../dist",
-        "lint": "eslint . --config eslint.config.js",
-        "format": "prettier --write .",
-        "format:check": "prettier --check .",
+        "eslint": "eslint . --config eslint.config.js",
+        "prettier": "prettier --write .",
         "test": "jest --coverage"
     },
     "repository": {

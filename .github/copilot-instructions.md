@@ -73,25 +73,17 @@ npm test
 
 ### 4. Linting (ESLint)
 ```bash
-npm run lint
+npm run eslint
 ```
-- **KNOWN ISSUE:** Lint command fails with parsing errors on test files (e.g., `src/**/*.test.ts` not in tsconfig.json project)
-- Will show 5 parsing errors and 5 warnings in coverage files
-- **Currently does not block builds** - the errors are in ESLint configuration, not source code
-- Error message: `"parserOptions.project" has been provided for @typescript-eslint/parser. The file was not found in any of the provided project(s)`
-- **WORKAROUND:** Agent should not expect lint to pass cleanly. When linting source files for specific changes, focus on the warnings that matter
+- Lints TypeScript source and tests using the flat ESLint config in `eslint.config.js`
+- Uses `tsconfig.eslint.json` for parser project resolution so test files are linted correctly
+- Ignores generated output (`dist/`, `coverage/`) to avoid false positives
+- **Expected result:** no lint errors for a clean workspace
+- **Known non-blocking warning:** Node may print `[MODULE_TYPELESS_PACKAGE_JSON]` for `eslint.config.js`; this is a runtime warning and does not indicate lint rule failures
 
-### 5. Format Check
+### 5. Format Code (Prettier)
 ```bash
-npm run format:check
-```
-- Checks if code matches Prettier formatting standards using `.prettierrc` defaults
-- **Note:** Will fail on many files as codebase formatting hasn't been fully applied
-- **Typical output:** "Code style issues found in 56 files"
-
-### 6. Format Code (Fix)
-```bash
-npm run format
+npm run prettier
 ```
 - Auto-fixes code formatting using Prettier on all files
 - Applies formatting in-place (modifies files)
