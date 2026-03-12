@@ -9,6 +9,22 @@ import type { Frame } from '../types/index';
 
 const { mqttBaseTopic, hassDiscoveryPrefix } = config;
 
+interface HassDiscoveryConfig {
+    unique_id: string;
+    name: string;
+    state_topic: string;
+    value_template: string;
+    state_class: string;
+    device: {
+        identifiers: string[];
+        manufacturer: string;
+        model: string;
+        name: string;
+    };
+    device_class?: string;
+    unit_of_measurement?: string;
+}
+
 /**
  * Get frame topic.
  * @param {string} nodeID Node ID
@@ -46,7 +62,7 @@ export async function publishConfigurationForHassDiscovery(
             const deviceClass = frame.deviceMapping[tag].device_class;
             const unitOfMeasurement = frame.deviceMapping[tag].unit_of_measurement;
             
-            const config: any = {
+            const discoveryConfig: HassDiscoveryConfig = {
                 unique_id: `rpict_${nodeID}_${tag}`,
                 name: `RPICT ${nodeID} ${tag}`,
                 state_topic: getFrameTopic(nodeID),
@@ -61,16 +77,16 @@ export async function publishConfigurationForHassDiscovery(
             };
             
             if (deviceClass) {
-                config.device_class = deviceClass;
+                discoveryConfig.device_class = deviceClass;
             }
             
             if (unitOfMeasurement) {
-                config.unit_of_measurement = unitOfMeasurement;
+                discoveryConfig.unit_of_measurement = unitOfMeasurement;
             }
             
             return client.publish(
                 discoveryTopic,
-                JSON.stringify(config),
+                JSON.stringify(discoveryConfig),
                 {
                     retain: true,
                 },
