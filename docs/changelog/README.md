@@ -1,23 +1,28 @@
 # Changelog
 
+## 4.0.1 (2026-03-12)
+
+- 🔧 Enhance dev tools usage (eslint and prettier)
+- 🔧 Automate version update
+
 ## 4.0.0 (2026-03-03)
 
 ### Breaking Changes
-- Migrated all JavaScript source files to TypeScript
-- Updated all dependencies to their latest versions
+- ⚙️ Migrated all JavaScript source files to TypeScript
+- ⬆️ Updated all dependencies to their latest versions
 
 ## 3.0.1 (2025-09-23)
 
 ### Bug Fixes
-- Fix incorrect unit of measurement in device mapping RPICT7V1.json
+- 🐛 Fix incorrect unit of measurement in device mapping RPICT7V1.json
 
 ## 3.0.0 (2025-09-23)
 
 ### Breaking Changes
-- Converted all Node.js code to ES modules
-- Updated all dependencies to their latest versions
-- Added Docker multi-arch support (arm/v6, arm/v7, arm64, amd64)
-- Improved error handling and type conversions
+- ⚙️ Converted all Node.js code to ES modules
+- ⬆️ Updated all dependencies to their latest versions
+- 🔧 Added Docker multi-arch support (arm/v6, arm/v7, arm64, amd64)
+- 🔧 Improved error handling and type conversions
 
 ## 2.0.1 (2022-11-29)
 
