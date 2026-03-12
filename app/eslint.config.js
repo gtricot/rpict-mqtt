@@ -5,7 +5,11 @@ import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
 export default [
-    // TypeScript configuration
+    // Folder exclusions
+    {
+        ignores: ['coverage/**', 'dist/**'],
+    },
+    // TypeScript source files configuration
     {
         files: ['**/*.ts'],
         languageOptions: {
@@ -16,29 +20,24 @@ export default [
                 ...globals.node,
             },
             parserOptions: {
-                project: './tsconfig.json',
+                project: './tsconfig.eslint.json',
             },
         },
         plugins: {
             '@typescript-eslint': typescriptPlugin,
         },
         rules: {
-            // TypeScript specific rules
-            '@typescript-eslint/no-unused-vars': 'error',
-            '@typescript-eslint/no-explicit-any': 'warn',
-            '@typescript-eslint/explicit-function-return-type': 'off',
-            '@typescript-eslint/explicit-module-boundary-types': 'off',
-            '@typescript-eslint/no-inferrable-types': 'off',
+            ...typescriptPlugin.configs.recommended.rules,
             ...prettier.rules,
         },
     },
-    // Add Jest specific configuration for TypeScript
+    // Jest specific configuration for TypeScript
     {
         files: ['**/*.test.ts', '**/*.spec.ts'],
         languageOptions: {
             parser: typescriptParser,
             parserOptions: {
-                project: './tsconfig.json',
+                project: './tsconfig.eslint.json',
             },
         },
         plugins: {
@@ -46,9 +45,9 @@ export default [
             '@typescript-eslint': typescriptPlugin,
         },
         rules: {
+            ...typescriptPlugin.configs.recommended.rules,
             ...jestPlugin.configs.recommended.rules,
-            '@typescript-eslint/no-unused-vars': 'error',
-            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-explicit-any': 'off',
         },
     },
 ];

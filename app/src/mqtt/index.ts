@@ -57,6 +57,7 @@ export async function connectMqtt() {
         if (client) {
             client.on('connect', () => {
                 // Workaround to avoid reconnect issue (see https://github.com/mqttjs/MQTT.js/issues/1213)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 (client as any)._client.options.properties = {};
             });
             client.on('reconnect', () => {
