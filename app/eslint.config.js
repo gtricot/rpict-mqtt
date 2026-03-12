@@ -5,6 +5,9 @@ import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 
 export default [
+    {
+        ignores: ['coverage/**', 'dist/**'],
+    },
     // TypeScript configuration
     {
         files: ['**/*.ts'],
@@ -16,7 +19,7 @@ export default [
                 ...globals.node,
             },
             parserOptions: {
-                project: './tsconfig.json',
+                project: './tsconfig.eslint.json',
             },
         },
         plugins: {
@@ -38,7 +41,7 @@ export default [
         languageOptions: {
             parser: typescriptParser,
             parserOptions: {
-                project: './tsconfig.json',
+                project: './tsconfig.eslint.json',
             },
         },
         plugins: {
@@ -48,7 +51,7 @@ export default [
         rules: {
             ...jestPlugin.configs.recommended.rules,
             '@typescript-eslint/no-unused-vars': 'error',
-            '@typescript-eslint/no-explicit-any': 'warn',
+            '@typescript-eslint/no-explicit-any': 'off',
         },
     },
 ];
