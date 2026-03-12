@@ -61,7 +61,7 @@ export async function publishConfigurationForHassDiscovery(
             log.debug(`Publish configuration for tag ${tag} for discovery to topic [${discoveryTopic}]`);
             const deviceClass = frame.deviceMapping[tag].device_class;
             const unitOfMeasurement = frame.deviceMapping[tag].unit_of_measurement;
-            
+
             const discoveryConfig: HassDiscoveryConfig = {
                 unique_id: `rpict_${nodeID}_${tag}`,
                 name: `RPICT ${nodeID} ${tag}`,
@@ -75,22 +75,18 @@ export async function publishConfigurationForHassDiscovery(
                     name: `RPICT ${nodeID}`,
                 },
             };
-            
+
             if (deviceClass) {
                 discoveryConfig.device_class = deviceClass;
             }
-            
+
             if (unitOfMeasurement) {
                 discoveryConfig.unit_of_measurement = unitOfMeasurement;
             }
-            
-            return client.publish(
-                discoveryTopic,
-                JSON.stringify(discoveryConfig),
-                {
-                    retain: true,
-                },
-            );
+
+            return client.publish(discoveryTopic, JSON.stringify(discoveryConfig), {
+                retain: true,
+            });
         });
     await Promise.all(promises);
     return;
